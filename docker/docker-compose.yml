@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  engsoft-java:
+    container_name: engsoft-java
+    image: engsoft-java
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    hostname: engsoft-java
+    ports:
+      - '8256:8080' # HTTP
+      - '4041:4040' # Debug
+    volumes:
+      # If there are volumes mounted, then we will use the local development files instead of the war file from the container
+      - ./src:/opt/development/src/:Z
