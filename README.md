@@ -1,5 +1,8 @@
 # ES-2023-2Sem-Grupo-B
 
+Inês Ferreira Ribeiro - 98283 - 
+João Diogo Figueirinha Rodrigues - 99793 
+
 
 # Calendar App
 
