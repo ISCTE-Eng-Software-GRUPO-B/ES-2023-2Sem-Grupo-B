@@ -2,18 +2,15 @@
 
 Inês Ferreira Ribeiro - 98283 - nokinhas2002
 
-João Diogo Figueirinha Rodrigues - 99793 - Joao-Diogo-Figueirinha-Rodrigues
+João Diogo Figueirinha Rodrigues  - 99793 - Joao-Diogo-Figueirinha-Rodrigues
 
-Jorge Miguel Melo Poço  - 96130 - jmmpo3
+Jorge Miguel Melo Poço - 96130 - jmmpo3
 
 Lourenço Soares Veríssimo - 98784 - lourencosoaress
 
 Paulo Manuel Fernandes Pires - 98132 - pmfpiscte
 
 Vasco Alexandre dos Santos Dionísio Domingos - 98493 - vasdd
-
-
-
 
 # Calendar App
 
