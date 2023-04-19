@@ -10,14 +10,14 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 public class CSVConverter {
 
-	ObjectMapper mapper;
+	static ObjectMapper mapper;
 
 	{
 		mapper = new ObjectMapper()
 				.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
 	}
 
-	public boolean isValidJSON(String json) {
+	public static boolean isValidJSON(String json) {
 		try {
 			mapper.readTree(json);
 		} catch (JacksonException e) {
@@ -26,7 +26,7 @@ public class CSVConverter {
 		return true;
 	}
 
-	public String jsonToCSV(String content) {
+	public static String jsonToCSV(String content) {
 
 		if(!isValidJSON(content)) return null;
 

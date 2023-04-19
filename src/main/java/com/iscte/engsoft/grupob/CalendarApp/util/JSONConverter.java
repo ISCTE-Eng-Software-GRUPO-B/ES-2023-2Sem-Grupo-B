@@ -12,14 +12,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JSONConverter {
 
-	public boolean isValidCSV(String content) {
+	public static boolean isValidCSV(String content) {
 		String header = content.substring(0,content.indexOf("\n"));
 		String headerFormat = "Curso,\"Unidade Curricular\",Turno,Turma,\"Inscritos no turno\",\"Dia da semana\",\"Hora inicio da aula\",\"Hora fim da aula\",\"Data da aula\",\"Sala atribuida a aula\",\"Lotacao da sala\"";
 		int n = header.compareTo(headerFormat);
 		return n == 0;
 	}
 
-	public String csvToJSON(String content) {
+	public static String csvToJSON(String content) {
 
 		if(!isValidCSV(content)) return null;
 		
