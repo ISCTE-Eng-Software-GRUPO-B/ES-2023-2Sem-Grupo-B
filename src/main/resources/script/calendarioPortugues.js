@@ -1,6 +1,6 @@
 /*
  * Tradução do calendário para portugês e configurações
- * @author Diogo Rodrigues
+
  */
 //Tradução
 (function ($) {
