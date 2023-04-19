@@ -7,13 +7,11 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Data
 @Jacksonized
-public class UrlFile {
+public class ConsumeURLCalendarRequest {
 
-    UrlType type;
+    CalendarFormat type;
     String url;
 
-    public enum UrlType {
-        CSV, JSON
-    }
+
 
 }
