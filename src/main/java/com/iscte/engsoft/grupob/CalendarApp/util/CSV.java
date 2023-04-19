@@ -13,10 +13,6 @@ public class CSV {
 	static final private char LFEED = '\n';
 	static final private char COMMENT = '#';
 
-	/**
-	 * Should we ignore multiple carriage-return/newline characters at the end of
-	 * the record?
-	 */
 	private boolean stripMultipleNewlines;
 
 	/**
