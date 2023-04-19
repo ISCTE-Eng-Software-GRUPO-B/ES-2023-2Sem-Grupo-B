@@ -1,38 +1,11 @@
 package com.iscte.engsoft.grupob.CalendarApp.util;
 
-import java.io.InputStream;
-import java.io.PushbackInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.BufferedReader;
+import java.io.*;
 
 import java.util.List;
 import java.util.ArrayList;
 
-/*
- * Copyright 2017 Jay Sridhar
- * 
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
- * @Author Jay Sridhar
- */
+/* Inspirado na class CSV de Jay Sridhar */
 public class CSV {
 	static final private int NUMMARK = 10;
 	static final private char DQUOTE = '"';
@@ -54,28 +27,8 @@ public class CSV {
 	private boolean eofSeen;
 	private Reader in;
 
-	static public Reader stripBom(InputStream in) throws java.io.IOException, java.io.UnsupportedEncodingException {
-		PushbackInputStream pin = new PushbackInputStream(in, 3);
-		byte[] b = new byte[3];
-		int len = pin.read(b, 0, b.length);
-		if ((b[0] & 0xFF) == 0xEF && len == 3) {
-			if ((b[1] & 0xFF) == 0xBB && (b[2] & 0xFF) == 0xBF) {
-				return new InputStreamReader(pin, "UTF-8");
-			} else {
-				pin.unread(b, 0, len);
-			}
-		} else if (len >= 2) {
-			if ((b[0] & 0xFF) == 0xFE && (b[1] & 0xFF) == 0xFF) {
-				return new InputStreamReader(pin, "UTF-16BE");
-			} else if ((b[0] & 0xFF) == 0xFF && (b[1] & 0xFF) == 0xFE) {
-				return new InputStreamReader(pin, "UTF-16LE");
-			} else {
-				pin.unread(b, 0, len);
-			}
-		} else if (len > 0) {
-			pin.unread(b, 0, len);
-		}
-		return new InputStreamReader(pin, "UTF-8");
+	public static Reader stripBom(String string){
+		return new StringReader(string);
 	}
 
 	public CSV(boolean stripMultipleNewlines, char separator, Reader input) {
@@ -86,13 +39,13 @@ public class CSV {
 		this.in = new BufferedReader(input);
 	}
 
-	public CSV(boolean stripMultipleNewlines, char separator, InputStream input)
+	public CSV(boolean stripMultipleNewlines, char separator, String in)
 			throws java.io.IOException, java.io.UnsupportedEncodingException {
 		this.stripMultipleNewlines = stripMultipleNewlines;
 		this.separator = separator;
 		this.fields = new ArrayList<String>();
 		this.eofSeen = false;
-		this.in = new BufferedReader(stripBom(input));
+		this.in = stripBom(in);
 	}
 
 	public boolean hasNext() throws java.io.IOException {

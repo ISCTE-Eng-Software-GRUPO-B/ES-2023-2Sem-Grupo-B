@@ -1,24 +1,33 @@
 package com.iscte.engsoft.grupob.CalendarApp.util;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import format.CSV;
-
 public class JSONConverter {
 
-	public void csvToJSON(String filePath) {
+	public boolean isValidCSV(String content) {
+		String header = content.substring(0,content.indexOf("\n"));
+		String headerFormat = "Curso,\"Unidade Curricular\",Turno,Turma,\"Inscritos no turno\",\"Dia da semana\",\"Hora inicio da aula\",\"Hora fim da aula\",\"Data da aula\",\"Sala atribuida a aula\",\"Lotacao da sala\"";
+		int n = header.compareTo(headerFormat);
+		return n == 0;
+	}
 
-		try (InputStream in = new FileInputStream(filePath)) {
-			CSV csv = new CSV(true, ',', in);
+	public String csvToJSON(String content) {
+
+		if(!isValidCSV(content)) return null;
+		
+		String convertedContent = "";
+
+		try {
+			CSV csv = new CSV(true, ',', content);
+
 			List<String> fieldNames;
 
 			List<Map<String, String>> list = new ArrayList<>();
@@ -36,14 +45,20 @@ public class JSONConverter {
 
 					list.add(obj);
 				}
-				ObjectMapper mapper = new ObjectMapper();
-				mapper.enable(SerializationFeature.INDENT_OUTPUT);
+				try {
+					ObjectMapper mapper = new ObjectMapper();
+					mapper.enable(SerializationFeature.INDENT_OUTPUT);
+					convertedContent = mapper.writeValueAsString(list);
 
-				mapper.writeValue(System.out, list);
+				} catch (StreamWriteException e) {
+					throw new RuntimeException(e);
+				}
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+				throw new RuntimeException(e);
+			}
+
+		return convertedContent;
 	}
 }
