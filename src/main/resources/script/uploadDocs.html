@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Upload de Ficheiros</title>
+  </head>
+  <body>
+    <h1>Faça Upload do seu Ficheiro</h1>
+    <form class="" action="index.html" method="post"> <br>
+
+      <p>Escolha a forma de fazer upload do ficheiro</p>
+
+      <input type="radio" id="file"name="choseFile" value="file">
+      <label for="file">Ficheiro</label> <br>
+
+      <input type="radio" id="URL" name="choseFile" value="url">
+      <label for="URL">URL</label><br>
+
+
+      <div id="hideFile" style="display: none;">
+        <input type="file" name="upload" value="upload"> <br>
+        <label>Faça upload dos documentos</label> <br>
+      </div>
+
+      <div id="showFile" style="display: none;">
+        <input type="url" name="url" placeholder="Insira URL">
+        <label for="url">Inserir URL</label>
+      </div>
+
+<br>
+    <input type="submit" value = "Submeter">
+    </form>
+
+    <script type="text/javascript">
+      const radioFile = document.getElementById("file");
+    const radioURL = document.getElementById("URL");
+    const inputContainerFile = document.getElementById("hideFile");
+    const inputContainerUrl = document.getElementById("showFile");
+
+    radioFile.addEventListener("click", () => {
+      if (radioFile.checked) {
+        inputContainerFile.style.display = "block";
+        inputContainerUrl.style.display = "none";
+      }
+    });
+
+    radioURL.addEventListener("click", () => {
+      if (radioURL.checked) {
+        inputContainerFile.style.display = "none";
+        inputContainerUrl.style.display = "block";
+      }
+    });
+
+
+    </script>
+  </body>
+</html>
