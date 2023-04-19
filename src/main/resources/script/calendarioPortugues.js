@@ -3,7 +3,7 @@
  * @author Diogo Rodrigues
  */
 //Tradução
-(function($){
+(function ($) {
     $.fullCalendar.locale("calendarioPortugues", {
         buttonText: {
             month: "Mês",
@@ -18,7 +18,7 @@
             'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
         monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
         allDayHtml: "Todo o dia",
-        eventLimitText: function(n) {
+        eventLimitText: function (n) {
             return "mais +" + n + "...";
         },
         noEventsMessage: "Sem eventos nesta semana",
@@ -29,7 +29,7 @@
 
 
 //Configurações
-$(document).ready(function() {
+$(document).ready(function () {
     $('#calendar').fullCalendar({
         allDaySlot: false,
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
         ],
 
         // A trabalhar - adiciona um pop-up ao evento
-        eventClick: function(event) {
+        eventClick: function (event) {
             var popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');
             popup.document.write('<p>' + event.description + '</p>');
             popup.document.write('<title>' + "Evento" + '</title>');
