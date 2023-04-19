@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 public class CalendarController {
 
+    /**
+     * @param request a data type (e.g.: JSON/CSV) MultipartFile
+     * @return the calendar data in JSON format
+     */
     @PostMapping(path = "/consume/file", consumes = MediaType.ALL_VALUE)
-    public String uploadFile(@ModelAttribute UploadCalendarFileRequest request) {
+    public String consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
         try {
             String fileContents = new String(request.getFile().getBytes(), StandardCharsets.UTF_8);
 
             // TODO: if CSV, parse, then try to marshal into a Calendar object
             // TODO: if JSON try to marshal into a calendar object
+            // TODO: Save the contents into memory and return the same contents
             // TODO: Above should be done in a different ticket
 
             return fileContents;
