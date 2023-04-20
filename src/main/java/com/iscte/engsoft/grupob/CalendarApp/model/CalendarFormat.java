@@ -1,6 +1,6 @@
 package com.iscte.engsoft.grupob.CalendarApp.model;
 
-public enum FileType {
+public enum CalendarFormat {
     CSV,
     JSON
 }

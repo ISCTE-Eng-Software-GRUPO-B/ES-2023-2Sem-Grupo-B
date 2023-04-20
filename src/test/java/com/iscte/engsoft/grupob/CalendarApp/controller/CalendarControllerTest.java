@@ -2,7 +2,7 @@ package com.iscte.engsoft.grupob.CalendarApp.controller;
 
 import java.io.IOException;
 
-import com.iscte.engsoft.grupob.CalendarApp.model.FileType;
+import com.iscte.engsoft.grupob.CalendarApp.model.CalendarFormat;
 import com.iscte.engsoft.grupob.CalendarApp.model.UploadCalendarFileRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -38,7 +38,7 @@ class CalendarControllerTest {
         when(mockedFile.getBytes()).thenReturn("A not empty String".getBytes());
         return UploadCalendarFileRequest
             .builder()
-            .type(FileType.JSON)
+            .type(CalendarFormat.JSON)
             .file(mockedFile)
             .build();
     }
@@ -48,7 +48,7 @@ class CalendarControllerTest {
         when(mockedFile.getBytes()).thenThrow(new IOException());
         return UploadCalendarFileRequest
             .builder()
-            .type(FileType.JSON)
+            .type(CalendarFormat.JSON)
             .file(mockedFile)
             .build();
     }

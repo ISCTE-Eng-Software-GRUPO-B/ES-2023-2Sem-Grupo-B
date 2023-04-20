@@ -12,6 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadCalendarFileRequest {
     @NonNull
     MultipartFile file;
-    @NonNull
-    FileType type;
+    @NonNull CalendarFormat type;
 }
