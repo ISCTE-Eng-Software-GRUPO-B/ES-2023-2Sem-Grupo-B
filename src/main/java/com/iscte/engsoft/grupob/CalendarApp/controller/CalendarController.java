@@ -21,11 +21,6 @@ public class CalendarController {
     @Autowired
     private UrlReader urlReader;
 
-    @RequestMapping(path = "/test", consumes = MediaType.ALL_VALUE)
-    public String test() {
-        return "Wonderful day to be alive.";
-    }
-
     /**
      * Receives a remote location (url) that contains calendar data and downloads it.
      * http://localhost:8256/calendar/consume/url
