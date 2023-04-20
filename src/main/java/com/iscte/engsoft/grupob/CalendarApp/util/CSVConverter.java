@@ -10,6 +10,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 public class CSVConverter {
 
+	private CSVConverter(){}
+
 	public static boolean isValidJSON(String json) {
 		ObjectMapper mapper = new ObjectMapper()
 					.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
@@ -38,7 +40,7 @@ public class CSVConverter {
 					.writeValueAsString(jsonTree);
 
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 
 		return convertedContent;

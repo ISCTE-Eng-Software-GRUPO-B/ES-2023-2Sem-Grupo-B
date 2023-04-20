@@ -6,11 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JSONConverter {
+
+	private JSONConverter(){}
 
 	public static boolean isValidCSV(String content) {
 		String header = content.substring(0,content.indexOf("\n"));
@@ -45,20 +47,24 @@ public class JSONConverter {
 
 					list.add(obj);
 				}
-				try {
-					ObjectMapper mapper = new ObjectMapper();
-					mapper.enable(SerializationFeature.INDENT_OUTPUT);
-					convertedContent = mapper.writeValueAsString(list);
-
-				} catch (StreamWriteException e) {
-					throw new RuntimeException(e);
-				}
+				convertedContent = saveConvertedContentToVariable(list);
 			}
 
 		} catch (IOException e) {
-				throw new RuntimeException(e);
+				throw new IllegalArgumentException(e);
 			}
 
 		return convertedContent;
+	}
+
+	public static String saveConvertedContentToVariable(List<Map<String, String>> list){
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		try {
+			return mapper.writeValueAsString(list);
+			
+		} catch (JsonProcessingException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 }

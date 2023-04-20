@@ -38,7 +38,7 @@ public abstract class ClassForCsv {
     private int inscritos;
 
     @JsonProperty("Dia da semana")
-    private DiaDaSemana dia_da_semana;
+    private DiaDaSemana diaDaSemana;
 
     @JsonProperty("Hora inicio da aula")
     private LocalTime horaInicio;
@@ -56,6 +56,6 @@ public abstract class ClassForCsv {
     private int lotacao;
 
     public enum DiaDaSemana {
-        Seg,Ter,Qua,Qui,Sex;
+        SEG,TER,QUA,QUI,SEX;
     }
 }
