@@ -11,7 +11,8 @@
       <p>Escolha a forma de carregar o calendário</p>
 
       <input type="radio" id="file"name="choseFile" value="file">
-      <label for="file">Ficheiro</label> <br>
+      <label for="file">Ficheiro CSV</label> <br>
+
 
       <input type="radio" id="URL" name="choseFile" value="url">
       <label for="URL">URL</label><br>
@@ -20,13 +21,13 @@
       <div id="hideFile">
         <input type="file" name="file"> <br>
         <label>Carregar novo calendário</label> <br>
-        <input type="submit" value = "Submeter" action="\calendar\consume\file">
+        <input type="submit" value = "Submeter" id="formIdFile">
       </div>
 
       <div id="showFile">
         <input type="url" name="url" placeholder="Insira URL">
         <label for="url">Inserir URL</label>
-        <input type="submit" value = "Submeter" action="\calendar\consume\url">
+        <input type="submit" value = "Submeter" id="formIdUrl">
       </div>
 
 <br>
@@ -38,6 +39,8 @@
     const radioURL = document.getElementById("URL");
     const inputContainerFile = document.getElementById("hideFile");
     const inputContainerUrl = document.getElementById("showFile");
+      document.getElementById("formIdFile").action = "\calendar\consume\file";
+      document.getElementById("formIdUrl").action = "\calendar\consume\url";
 
     radioFile.addEventListener("click", () => {
       if (radioFile.checked) {
