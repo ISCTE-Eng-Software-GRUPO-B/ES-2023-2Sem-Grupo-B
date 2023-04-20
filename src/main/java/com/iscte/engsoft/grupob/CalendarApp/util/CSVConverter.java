@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
+import java.util.Optional;
+
 public class CSVConverter {
 
 	private CSVConverter(){}
@@ -25,7 +27,7 @@ public class CSVConverter {
 
 	public static String jsonToCSV(String content) {
 
-		if(!isValidJSON(content)) return null;
+		if(!isValidJSON(content)){ return ""; }
 
 		String convertedContent;
 
@@ -33,7 +35,7 @@ public class CSVConverter {
 			JsonNode jsonTree = new ObjectMapper().readTree(content);
 			CsvMapper csvMapper = new CsvMapper();
 
-			CsvSchema csvSchema = csvMapper.schemaFor(ClassForCsv.class).withHeader();
+			CsvSchema csvSchema = csvMapper.schemaFor(Event.class).withHeader();
 
 			convertedContent = csvMapper.writerFor(JsonNode.class)
 					.with(csvSchema)

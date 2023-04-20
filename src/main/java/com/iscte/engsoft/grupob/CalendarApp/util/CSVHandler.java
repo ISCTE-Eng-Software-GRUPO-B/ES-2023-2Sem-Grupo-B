@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /* Inspirado na class CSV de Jay Sridhar */
-public class CSV {
+public class CSVHandler {
 	static final private int NUMMARK = 10;
 	static final private char DQUOTE = '"';
 	static final private char CRETURN = '\r';
@@ -27,7 +27,7 @@ public class CSV {
 		return new StringReader(string);
 	}
 
-	public CSV(boolean stripMultipleNewlines, char separator, Reader input) {
+	public CSVHandler(boolean stripMultipleNewlines, char separator, Reader input) {
 		this.stripMultipleNewlines = stripMultipleNewlines;
 		this.separator = separator;
 		this.fields = new ArrayList<String>();
@@ -35,7 +35,7 @@ public class CSV {
 		this.in = new BufferedReader(input);
 	}
 
-	public CSV(boolean stripMultipleNewlines, char separator, String in)
+	public CSVHandler(boolean stripMultipleNewlines, char separator, String in)
 			throws java.io.IOException, java.io.UnsupportedEncodingException {
 		this.stripMultipleNewlines = stripMultipleNewlines;
 		this.separator = separator;

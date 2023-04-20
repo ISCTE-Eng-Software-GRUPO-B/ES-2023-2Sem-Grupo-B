@@ -23,12 +23,12 @@ public class JSONConverter {
 
 	public static String csvToJSON(String content) {
 
-		if(!isValidCSV(content)) return null;
+		if(!isValidCSV(content)){ return ""; }
 		
 		String convertedContent = "";
 
 		try {
-			CSV csv = new CSV(true, ',', content);
+			CSVHandler csv = new CSVHandler(true, ',', content);
 
 			List<String> fieldNames;
 

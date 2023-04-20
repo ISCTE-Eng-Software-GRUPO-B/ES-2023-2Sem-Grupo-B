@@ -19,8 +19,7 @@ import java.time.LocalTime;
         "Sala atribuida a aula",
         "Lotacao da sala"
 })
-
-public abstract class ClassForCsv {
+public abstract class Event {
 
     @JsonProperty("Curso")
     private String curso;
