@@ -1,19 +1,16 @@
 package com.iscte.engsoft.grupob.CalendarApp.utils;
 
-import com.iscte.engsoft.grupob.CalendarApp.model.CalendarFormat;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+@Component
 public class UrlReader {
 
-    private UrlReader() {
-
-    }
-
-    public static String readFileFromUrl(String url, CalendarFormat calFormat) throws IOException {
+    public String readFileFromUrl(String url) throws IOException {
 
         String calObj;
         URL urlObj = new URL(url);
