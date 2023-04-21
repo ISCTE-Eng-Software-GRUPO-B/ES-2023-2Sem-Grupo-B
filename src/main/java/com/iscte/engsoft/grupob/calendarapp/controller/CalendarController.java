@@ -47,14 +47,7 @@ public class CalendarController {
     @PostMapping(path = "/consume/file", consumes = MediaType.ALL_VALUE)
     public String consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
         try {
-            String fileContents = new String(request.getFile().getBytes(), StandardCharsets.UTF_8);
-
-            // TODO: if CSV, parse, then try to marshal into a Calendar object
-            // TODO: if JSON try to marshal into a calendar object
-            // TODO: Save the contents into memory and return the same contents
-            // TODO: Above should be done in a different ticket
-
-            return fileContents;
+            return new String(request.getFile().getBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             log.atError().log("Error reading file contents");
         }
