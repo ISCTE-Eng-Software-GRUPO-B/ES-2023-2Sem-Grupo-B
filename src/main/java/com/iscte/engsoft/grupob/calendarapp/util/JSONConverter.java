@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp.util;
+package com.iscte.engsoft.grupob.calendarapp.util;
 
 import java.io.IOException;
 import java.util.ArrayList;

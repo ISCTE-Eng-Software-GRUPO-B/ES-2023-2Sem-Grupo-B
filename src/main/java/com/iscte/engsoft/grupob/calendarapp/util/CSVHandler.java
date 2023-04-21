@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp.util;
+package com.iscte.engsoft.grupob.calendarapp.util;
 
 import java.io.*;
 
@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 /* Inspirado na class CSV de Jay Sridhar */
 public class CSVHandler {
-	static final private int NUMMARK = 10;
-	static final private char DQUOTE = '"';
-	static final private char CRETURN = '\r';
-	static final private char LFEED = '\n';
-	static final private char COMMENT = '#';
+	private static final int NUMMARK = 10;
+	private static final char DQUOTE = '"';
+	private static final char CRETURN = '\r';
+	private static final char LFEED = '\n';
+	private static final char COMMENT = '#';
 
 	private boolean stripMultipleNewlines;
 
@@ -30,16 +30,15 @@ public class CSVHandler {
 	public CSVHandler(boolean stripMultipleNewlines, char separator, Reader input) {
 		this.stripMultipleNewlines = stripMultipleNewlines;
 		this.separator = separator;
-		this.fields = new ArrayList<String>();
+		this.fields = new ArrayList<>();
 		this.eofSeen = false;
 		this.in = new BufferedReader(input);
 	}
 
-	public CSVHandler(boolean stripMultipleNewlines, char separator, String in)
-			throws java.io.IOException, java.io.UnsupportedEncodingException {
+	public CSVHandler(boolean stripMultipleNewlines, char separator, String in) {
 		this.stripMultipleNewlines = stripMultipleNewlines;
 		this.separator = separator;
-		this.fields = new ArrayList<String>();
+		this.fields = new ArrayList<>();
 		this.eofSeen = false;
 		this.in = stripBom(in);
 	}
@@ -60,7 +59,7 @@ public class CSVHandler {
 	}
 
 	// Returns true if EOF seen.
-	static private boolean discardLinefeed(Reader in, boolean stripMultiple) throws java.io.IOException {
+	private static boolean discardLinefeed(Reader in, boolean stripMultiple) throws java.io.IOException {
 		if (stripMultiple) {
 			in.mark(NUMMARK);
 			int value = in.read();

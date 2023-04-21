@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp.model;
+package com.iscte.engsoft.grupob.calendarapp.model;
 
 import lombok.Builder;
 import lombok.Data;

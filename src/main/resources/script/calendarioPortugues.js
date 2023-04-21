@@ -53,7 +53,7 @@ $(document).ready(function () {
 
         // A trabalhar - adiciona um pop-up ao evento
         eventClick: function (event) {
-            var popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');
+            let popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');
             popup.document.write('<p>' + event.description + '</p>');
             popup.document.write('<title>' + "Evento" + '</title>');
             console.log("ola a todos");

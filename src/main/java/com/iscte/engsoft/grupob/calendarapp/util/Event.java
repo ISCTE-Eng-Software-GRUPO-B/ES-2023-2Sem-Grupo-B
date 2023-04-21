@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp.util;
+package com.iscte.engsoft.grupob.calendarapp.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

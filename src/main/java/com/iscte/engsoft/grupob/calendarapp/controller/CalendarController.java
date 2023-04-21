@@ -1,9 +1,9 @@
-package com.iscte.engsoft.grupob.CalendarApp.controller;
+package com.iscte.engsoft.grupob.calendarapp.controller;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import com.iscte.engsoft.grupob.CalendarApp.model.UploadCalendarFileRequest;
+import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -25,14 +25,11 @@ public class CalendarController {
     @PostMapping(path = "/consume/file", consumes = MediaType.ALL_VALUE)
     public String consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
         try {
-            String fileContents = new String(request.getFile().getBytes(), StandardCharsets.UTF_8);
+            // if CSV, parse, then try to marshal into a Calendar object
+            // if JSON try to marshal into a calendar object
+            // Save the contents into memory and return the same contents
 
-            // TODO: if CSV, parse, then try to marshal into a Calendar object
-            // TODO: if JSON try to marshal into a calendar object
-            // TODO: Save the contents into memory and return the same contents
-            // TODO: Above should be done in a different ticket
-
-            return fileContents;
+            return new String(request.getFile().getBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             log.atError().log("Error reading file contents");
         }

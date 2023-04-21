@@ -1,10 +1,10 @@
-package com.iscte.engsoft.grupob.CalendarApp;
+package com.iscte.engsoft.grupob.calendarapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CalendarApplicationTests {
+class CalendarApplicationTest {
 
 	@Test
 	void contextLoads() {

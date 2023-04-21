@@ -1,9 +1,9 @@
-package com.iscte.engsoft.grupob.CalendarApp.controller;
+package com.iscte.engsoft.grupob.calendarapp.controller;
 
 import java.io.IOException;
 
-import com.iscte.engsoft.grupob.CalendarApp.model.CalendarFormat;
-import com.iscte.engsoft.grupob.CalendarApp.model.UploadCalendarFileRequest;
+import com.iscte.engsoft.grupob.calendarapp.model.CalendarFormat;
+import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

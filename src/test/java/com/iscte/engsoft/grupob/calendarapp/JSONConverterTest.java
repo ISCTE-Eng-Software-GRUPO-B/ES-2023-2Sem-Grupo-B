@@ -1,6 +1,6 @@
-package com.iscte.engsoft.grupob.CalendarApp;
+package com.iscte.engsoft.grupob.calendarapp;
 
-import com.iscte.engsoft.grupob.CalendarApp.util.JSONConverter;
+import com.iscte.engsoft.grupob.calendarapp.util.JSONConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ResourceUtils;
