@@ -25,8 +25,13 @@ public class CSVConverter {
 	}
 
 	public static String jsonToCSV(String content) {
+		if ("".equals(content)) {
+			return "";
+		}
 
-		if(!isValidJSON(content)){ return ""; }
+		if(!isValidJSON(content)) {
+			return "";
+		}
 
 		String convertedContent;
 
