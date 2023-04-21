@@ -21,7 +21,6 @@ class CalendarControllerTest {
 	@Mock
 	private UrlReader urlReader;
 
-	//@Autowired
 	@InjectMocks
 	private CalendarController controller;
 
@@ -33,22 +32,26 @@ class CalendarControllerTest {
 						.url("https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json")
 						.type(CalendarFormat.JSON).build();
 
-		/*
-		Mockito.verify(urlReader)
-				.readFileFromUrl(
-						"https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json",
-						CalendarFormat.JSON
-				);
-
-		 */
-
 		Mockito.when(urlReader.readFileFromUrl(
-				"https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json")).thenReturn("XPTO");
+				"https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json")
+		).thenReturn("JsonResult");
 
 		String resultJson = controller.consumeUrl(request);
 		log.info(String.format("resultJson: %s", resultJson));
 
-		assertEquals("XPTO", resultJson);
+		assertEquals("JsonResult", resultJson);
+
+	}
+
+	@Test
+	void readFileFromUrlTest()  throws IOException {
+
+		UrlReader reader = new UrlReader();
+		String resultJson = reader.readFileFromUrl("https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json");
+
+		log.info(String.format("resultJson: %s", resultJson));
+
+		assertNotEquals(-1, resultJson.indexOf("aliceblue"));
 
 	}
 
