@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp;
+package com.iscte.engsoft.grupob.calendarapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class CalendarApplicationTests {
+class CalendarApplicationTest {
 
 
 	@Test

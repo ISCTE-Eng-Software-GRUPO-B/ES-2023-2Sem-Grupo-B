@@ -1,8 +1,8 @@
-package com.iscte.engsoft.grupob.CalendarApp.controller;
+package com.iscte.engsoft.grupob.calendarapp.controller;
 
-import com.iscte.engsoft.grupob.CalendarApp.model.ConsumeURLCalendarRequest;
-import com.iscte.engsoft.grupob.CalendarApp.model.UploadCalendarFileRequest;
-import com.iscte.engsoft.grupob.CalendarApp.utils.UrlReader;
+import com.iscte.engsoft.grupob.calendarapp.model.ConsumeURLCalendarRequest;
+import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
+import com.iscte.engsoft.grupob.calendarapp.util.UrlReader;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
