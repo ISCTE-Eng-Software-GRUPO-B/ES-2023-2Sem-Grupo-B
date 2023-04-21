@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp;
+package com.iscte.engsoft.grupob.calendarapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

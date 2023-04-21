@@ -1,4 +1,4 @@
-package com.iscte.engsoft.grupob.CalendarApp.util;
+package com.iscte.engsoft.grupob.calendarapp.util;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,8 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-
-import java.util.Optional;
+import com.iscte.engsoft.grupob.calendarapp.model.Event;
 
 public class CSVConverter {
 
