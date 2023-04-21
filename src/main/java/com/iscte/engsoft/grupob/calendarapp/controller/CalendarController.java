@@ -1,7 +1,10 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
+import com.iscte.engsoft.grupob.calendarapp.model.CalendarFormat;
 import com.iscte.engsoft.grupob.calendarapp.model.ConsumeURLCalendarRequest;
 import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
+import com.iscte.engsoft.grupob.calendarapp.util.CSVConverter;
+import com.iscte.engsoft.grupob.calendarapp.util.JSONConverter;
 import com.iscte.engsoft.grupob.calendarapp.util.UrlReader;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,9 @@ public class CalendarController {
 
     /**
      * Receives a remote location (url) that contains calendar data and downloads it.
-     * http://localhost:8256/calendar/consume/url
-     * { "type": "JSON", "url": "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json"}
-     * @return          the calendar in json format
+     * <a href="http://localhost:8256/calendar/consume/url">...</a>
+     * { "type": "JSON", "url": "<a href="https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json">...</a>"}
+     * @return the calendar in json format
      */
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
@@ -53,5 +56,17 @@ public class CalendarController {
         }
 
         return "";
+    }
+
+    /**
+     * Converts the input file to the opposite type
+     * @param request a data type (e.g.: JSON/CSV) MultipartFile
+     * @return the calendar data in the opposite format, e.g.: IN -> CSV -> Out -> JSON; IN -> JSON -> Out -> CSV;
+     */
+    @PostMapping(path = "/convert", consumes = MediaType.ALL_VALUE)
+    public String convert(@ModelAttribute UploadCalendarFileRequest request) {
+        return request.getType() == CalendarFormat.JSON ?
+            CSVConverter.jsonToCSV(request.getFileContents()) :
+            JSONConverter.csvToJSON(request.getFileContents());
     }
 }
