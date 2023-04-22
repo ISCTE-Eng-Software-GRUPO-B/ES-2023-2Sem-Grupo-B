@@ -24,8 +24,10 @@ Esta aplicação Java serve como backend para a aplicação calendário da cadei
 > [Instalar Maven](https://maven.apache.org/install.html)
 2. Instalar docker (one time only)
 > [Instalar Docker](https://docs.docker.com/desktop/install/windows-install/)
-3. Arrancar a aplicação:
+3. Arrancar a aplicação (gera report JaCoCo para target/site/jacoco/index.html:
 > `mvn clean install && docker-compose -f docker/docker-compose.yml up --build`
+4. Executar apenas os testes e gerar report JaCoCo:
+> `mvn test jacoco:report`
 
 ### Documentação de referência
 Para mais informação sobre a stack utilizada neste projecto por favor consultar o documento de markdown HELP.md
