@@ -1,10 +1,13 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.iscte.engsoft.grupob.calendarapp.model.CalendarFormat;
-import com.iscte.engsoft.grupob.calendarapp.model.ConsumeURLCalendarRequest;
-import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
+import com.iscte.engsoft.grupob.calendarapp.model.*;
 import com.iscte.engsoft.grupob.calendarapp.util.UrlReader;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -55,19 +58,50 @@ class CalendarControllerTest {
 
     @Test
     void consumeUrlSuccess() throws IOException {
+
+        String output = "[ {\n" +
+                "  \"Curso\" : \"MCP,MCTRL,MES,MEA,MPP,MS\",\n" +
+                "  \"Unidade Curricular\" : \"MÃƒÂ©todosdePesquisaemCiÃƒÂªnciasSociais\",\n" +
+                "  \"Turno\" : \"00553TP02\",\n" +
+                "  \"Turma\" : \"MESA1\",\n" +
+                "  \"Inscritos no turno\" : \"35\",\n" +
+                "  \"Dia da semana\" : \"Qua\",\n" +
+                "  \"Hora inicio da aula\" : \"18:00:00\",\n" +
+                "  \"Hora fim da aula\" : \"20:00:00\",\n" +
+                "  \"Data da aula\" : \"07/12/2022\",\n" +
+                "  \"Sala atribuida a aula\" : \"C3.01\",\n" +
+                "  \"Lotacao da sala\" : \"54\"\n" +
+                "} ]";
+
+        List<EventFrontend> lista = new ArrayList<>();
+        EventFrontend event = new EventFrontend();
+        event.setCurso("MCP,MCTRL,MES,MEA,MPP,MS");
+        event.setUc("MÃƒÂ©todosdePesquisaemCiÃƒÂªnciasSociais");
+        event.setTurno("00553TP02");
+        event.setTurma("MESA1");
+        event.setInscritos(35);
+        event.setDiaDaSemana(DiaDaSemana.QUA);
+        event.setHoraInicio(LocalTime.parse("18:00:00"));
+        event.setHoraFim(LocalTime.parse("20:00:00"));
+        event.setDataAula(LocalDate.parse("07/12/2022", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        event.setSalaAtribuida("C3.01");
+        event.setLotacao(54);
+        lista.add(event);
+
         ConsumeURLCalendarRequest request =
             ConsumeURLCalendarRequest.builder()
-                                     .url("https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json")
+                                     .url("https://raw.githubusercontent.com/ISCTE-Eng-Software-GRUPO-B/ES-2023-2Sem-Sexta-Feira-LIGEPL-GrupoB/main/src/test/resources/test.json")
                                      .type(CalendarFormat.JSON).build();
 
+
         Mockito.when(urlReader.readFileFromUrl(
-            "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json")
-        ).thenReturn("JsonResult");
+            "https://raw.githubusercontent.com/ISCTE-Eng-Software-GRUPO-B/ES-2023-2Sem-Sexta-Feira-LIGEPL-GrupoB/main/src/test/resources/test.json")
+        ).thenReturn(output);
 
-        String resultJson = controller.consumeUrl(request);
-        log.info(String.format("resultJson: %s", resultJson));
+        List<EventFrontend> listaEventos = controller.consumeUrl(request);
+        log.info(String.format("List Size: %s", String.valueOf(listaEventos.size())));
 
-        assertEquals("JsonResult", resultJson);
+        assertEquals(lista, listaEventos);
     }
 
     @Test

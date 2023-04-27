@@ -8,10 +8,6 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 @Jacksonized
 public class ConsumeURLCalendarRequest {
-
     CalendarFormat type;
     String url;
-
-
-
 }

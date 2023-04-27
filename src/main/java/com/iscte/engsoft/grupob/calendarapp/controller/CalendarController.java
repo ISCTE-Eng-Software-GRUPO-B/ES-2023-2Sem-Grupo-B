@@ -1,9 +1,15 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
-import com.iscte.engsoft.grupob.calendarapp.model.CalendarFormat;
-import com.iscte.engsoft.grupob.calendarapp.model.ConsumeURLCalendarRequest;
-import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.iscte.engsoft.grupob.calendarapp.model.*;
 import com.iscte.engsoft.grupob.calendarapp.util.CSVConverter;
+import com.iscte.engsoft.grupob.calendarapp.util.CustomEventFrontendDeserializer;
 import com.iscte.engsoft.grupob.calendarapp.util.JSONConverter;
 import com.iscte.engsoft.grupob.calendarapp.util.UrlReader;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @RestController
 @Validated
@@ -27,6 +34,8 @@ public class CalendarController {
     @Autowired
     private UrlReader urlReader;
 
+    private List<EventFrontend> listaEventos;
+
     /**
      * Receives a remote location (url) that contains calendar data and downloads it.
      * <a href="http://localhost:8256/calendar/consume/url">...</a>
@@ -34,12 +43,25 @@ public class CalendarController {
      * @return the calendar in json format
      */
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
+    public List<EventFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
 
         log.info(String.format("Url: %s", request.getUrl()));
         log.info(String.format("UrlType: %s", request.getType()));
 
-        return  urlReader.readFileFromUrl(request.getUrl());
+        String jsonEventsArray = urlReader.readFileFromUrl(request.getUrl());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
+        SimpleModule module =
+                new SimpleModule("CustomEventFrontendDeserializer", new Version(1, 0, 0, null, null, null));
+        module.addDeserializer(EventFrontend.class, new CustomEventFrontendDeserializer());
+        objectMapper.registerModule(module);
+
+        //Set instance variable
+        this.listaEventos = objectMapper.readValue(jsonEventsArray, new TypeReference<List<EventFrontend>>(){});
+
+        return listaEventos;
 
     }
 
