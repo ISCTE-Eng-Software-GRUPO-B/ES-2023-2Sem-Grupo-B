@@ -38,8 +38,8 @@ public class CalendarController {
 
     /**
      * Receives a remote location (url) that contains calendar data and downloads it.
-     * <a href="http://localhost:8256/calendar/consume/url">...</a>
-     * { "type": "JSON", "url": "<a href="https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json">...</a>"}
+     * @param "type" a data type (e.g.: JSON/CSV)
+     * @param "url" the url specifying the calendar in "type" format
      * @return the calendar in json format
      */
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
