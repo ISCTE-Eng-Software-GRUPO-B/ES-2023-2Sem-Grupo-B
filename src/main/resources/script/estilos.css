@@ -1,3 +1,11 @@
-.estilo {
+#estilo {
     text-align: right;
+}
+
+#hideFile{
+    display: none;
+}
+
+#showFile{
+    display: none;
 }

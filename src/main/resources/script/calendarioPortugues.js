@@ -1,7 +1,7 @@
 /*
- * Tradução do calendário para portugês e configurações
+* Tradução do calendário para portugês e configurações
 
- */
+*/
 //Tradução
 (function ($) {
     $.fullCalendar.locale("calendarioPortugues", {
@@ -54,10 +54,19 @@ $(document).ready(function () {
         // A trabalhar - adiciona um pop-up ao evento
         eventClick: function (event) {
             var popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');
-            popup.document.write('<p>' + event.description + '</p>');
+            var content = '<p>' + event.description + '</p>';
+            content += '<button class="remove-event">Remover</button>';
+            popup.document.write(content);
             popup.document.write('<title>' + "Evento" + '</title>');
-            console.log("ola a todos");
+
+            // Quando o botão "Remover" é clicado, remove o evento do calendário
+            $(popup.document).find('.remove-event').click(function() {
+                $('#calendar').fullCalendar('removeEvents', event._id);
+                popup.close();
+            });
         },
+
+
         height: 600,
 
         defaultView: 'agendaWeek',
@@ -80,5 +89,7 @@ $(document).ready(function () {
 
 
     });
+
+
 
 });

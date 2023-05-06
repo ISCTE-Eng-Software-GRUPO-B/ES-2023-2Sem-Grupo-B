@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8">
+        <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.print.min.css"
           media="print"/>
     <link rel="stylesheet" href="estilos.css"/>
     <title>Teste</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <h1>Calendário</h1>
-<form id="estilo" action="/calendar/download">
+<!--<form id="estilo" action="/calendar/download"> -->
+    <form id="estilo">
     <div id='calendar'></div>
     <br>
     <input type="radio" id="CSV" name="choose" value="CSV">
@@ -21,13 +23,52 @@
     <label for="JSON"> Download Calendar JSON</label>
     <br> <br>
 
-    <input type="submit" id="SUBMIT" value="Download Calendar">
+        <button type="button" id="download">Download</button>
 
-</form>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha512-i2CVnAiguN6SnJ3d2ChOOddMWQyvgQTzm0qSgiKhOqBMGCx4fGU5BtzXEybnKatWPDkXPFyCI0lbG42BnVjr/Q==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js" integrity="sha512-o0rWIsZigOfRAgBxl4puyd0t6YKzeAw9em/29Ag7lhCQfaaua/mDwnpE2PVzwqJ08N7/wqrgdjc2E0mwdSY2Tg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha512-rKFvwjvE4liWPlFnvH4ZhRDfNZ9FOpdkD/BU5gAIA3VS3vOQrQ5BjKgbO3kxebKhHdHcNUHLqxQYSoxee9UwgA==" crossorigin="anonymous"></script>
+
+    </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <script src="calendarioPortugues.js"></script>
+<script>
+    $('#download').click(function() {
+        // Obtém todos os eventos do calendário
+        var allEvents = $('#calendar').fullCalendar('clientEvents');
+
+        // Converte os eventos para JSON
+        var jsonEvents = JSON.stringify(allEvents);
+
+// Cria um novo objeto Blob com os dados JSON
+        var blob = new Blob([jsonEvents], {type: "application/json"});
+
+// Faz o download do arquivo
+        fetch(URL.createObjectURL(blob))
+            .then(response => response.blob())
+            .then(blob => {
+                // Cria um objeto URL para o objeto Blob
+                var url = URL.createObjectURL(blob);
+
+                // Cria um link de download
+                var link = document.createElement("a");
+                link.href = url;
+                link.download = "calendario.json";
+
+                // Simula o clique no link para iniciar o download
+                link.dispatchEvent(
+                    new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    })
+                );
+            });
+    });
+
+
+</script>
+
+
 </body>
 </html>
