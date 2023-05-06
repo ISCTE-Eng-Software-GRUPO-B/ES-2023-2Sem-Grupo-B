@@ -14,3 +14,4 @@ services:
     volumes:
       # If there are volumes mounted, then we will use the local development files instead of the war file from the container
       - ./src:/opt/development/src/:Z
+      - ./target:/opt/development/target/:Z
