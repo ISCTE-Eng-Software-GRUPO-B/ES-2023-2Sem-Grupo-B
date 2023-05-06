@@ -8,10 +8,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+/**
+ * Esta classe permite a leitura de uma url independentemente do formato
+ * (desde que seja formato de texto).
+* */
 @Log4j2
 @Component
 public class UrlReader {
 
+    /**
+     * Lê o conteúdo de uma URL
+     * @param url string com a url a ler
+     * @return string com o conteúdo lido da url
+     */
     public String readFileFromUrl(String url) throws IOException {
 
         URL urlObj = new URL(url);

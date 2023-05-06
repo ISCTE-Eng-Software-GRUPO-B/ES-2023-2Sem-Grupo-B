@@ -28,45 +28,46 @@ import java.util.List;
     private List&lt;EventFrontend&gt; listaEventos;
 
     /**
-     * Receives a remote location (url) that contains calendar data and downloads it.
-     *
-     * @param request
-     *          request.type: a data type (possible values JSON, WEBCAL or CSV)
-     *          request.url: the url specifying the calendar in &quot;type&quot; format
-     * @return the list of events in json format
+     * Recebe uma url com contém um calendário com eventos e que pode estar em
+     * diferentes formatos (WEBCAL, JSON ou CSV) e faz o donwload desse calendário
+     * para uma lista de eventos em memória
+     * @param request com dois campos internos (type e url)
+     *          request.type: enumerado com valores possíveis JSON, WEBCAL ou CSV
+     *          request.url: a url que está na origem do calendário a fazer o donwload
+     * @return lista de eventos obtidos.
      */
     @PostMapping(value = &quot;/consume/url&quot;, consumes = MediaType.APPLICATION_JSON_VALUE)
     public List&lt;EventFrontend&gt; consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
 
-<span class="fc" id="L41">        log.info(String.format(&quot;Url: %s&quot;, request.getUrl()));</span>
-<span class="fc" id="L42">        log.info(String.format(&quot;UrlType: %s&quot;, request.getType()));</span>
+<span class="fc" id="L42">        log.info(String.format(&quot;Url: %s&quot;, request.getUrl()));</span>
+<span class="fc" id="L43">        log.info(String.format(&quot;UrlType: %s&quot;, request.getType()));</span>
 
-<span class="fc" id="L44">        String url = request.getUrl();</span>
+<span class="fc" id="L45">        String url = request.getUrl();</span>
 
         //for webcal we need to change the protocol from webcal:// to https:// (for fenix) //TODO: improve
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (request.getType()==CalendarFormat.WEBCAL){</span>
-<span class="nc" id="L48">            url = url.replace(&quot;webcal://&quot;, &quot;https://&quot;);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (request.getType()==CalendarFormat.WEBCAL){</span>
+<span class="nc" id="L49">            url = url.replace(&quot;webcal://&quot;, &quot;https://&quot;);</span>
         }
 
-<span class="fc" id="L51">        String content = urlReader.readFileFromUrl(url);</span>
+<span class="fc" id="L52">        String content = urlReader.readFileFromUrl(url);</span>
 
-<span class="fc" id="L53">        CalendarFormat type =  request.getType();</span>
-<span class="fc" id="L54">        UrlProcessor urlProcessor = null; //usa poliformismo para o parse</span>
-<span class="pc bpc" id="L55" title="3 of 4 branches missed.">        switch (type) {</span>
+<span class="fc" id="L54">        CalendarFormat type =  request.getType();</span>
+<span class="fc" id="L55">        UrlProcessor urlProcessor = null; //usa poliformismo para o parse</span>
+<span class="pc bpc" id="L56" title="3 of 4 branches missed.">        switch (type) {</span>
             case JSON:
-<span class="fc" id="L57">                urlProcessor = new UrlProcessorJson();</span>
-<span class="fc" id="L58">                break;</span>
+<span class="fc" id="L58">                urlProcessor = new UrlProcessorJson();</span>
+<span class="fc" id="L59">                break;</span>
             case WEBCAL:
-<span class="nc" id="L60">                urlProcessor = new UrlProcessorWebcal();</span>
-<span class="nc" id="L61">                break;</span>
+<span class="nc" id="L61">                urlProcessor = new UrlProcessorWebcal();</span>
+<span class="nc" id="L62">                break;</span>
             case CSV:
-<span class="nc" id="L63">                urlProcessor = new UrlProcessorCsv();</span>
-<span class="nc" id="L64">                break;</span>
+<span class="nc" id="L64">                urlProcessor = new UrlProcessorCsv();</span>
+<span class="nc" id="L65">                break;</span>
             default:
-<span class="nc" id="L66">                urlProcessor = new UrlProcessorJson();</span>
+<span class="nc" id="L67">                urlProcessor = new UrlProcessorJson();</span>
         }
-<span class="fc" id="L68">        this.listaEventos = urlProcessor.parseUrlContent(content);</span>
-<span class="fc" id="L69">        return this.listaEventos;</span>
+<span class="fc" id="L69">        this.listaEventos = urlProcessor.parseUrlContent(content);</span>
+<span class="fc" id="L70">        return this.listaEventos;</span>
 
     }
 
@@ -78,12 +79,12 @@ import java.util.List;
     @PostMapping(path = &quot;/consume/file&quot;, consumes = MediaType.ALL_VALUE)
     public String consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
         try {
-<span class="fc" id="L81">            return new String(request.getFile().getBytes(), StandardCharsets.UTF_8);</span>
-<span class="fc" id="L82">        } catch (IOException e) {</span>
-<span class="fc" id="L83">            log.atError().log(&quot;Error reading file contents&quot;);</span>
+<span class="fc" id="L82">            return new String(request.getFile().getBytes(), StandardCharsets.UTF_8);</span>
+<span class="fc" id="L83">        } catch (IOException e) {</span>
+<span class="fc" id="L84">            log.atError().log(&quot;Error reading file contents&quot;);</span>
         }
 
-<span class="fc" id="L86">        return &quot;&quot;;</span>
+<span class="fc" id="L87">        return &quot;&quot;;</span>
     }
 
     /**
@@ -93,9 +94,9 @@ import java.util.List;
      */
     @PostMapping(path = &quot;/convert&quot;, consumes = MediaType.ALL_VALUE)
     public String convert(@ModelAttribute UploadCalendarFileRequest request) {
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        return request.getType() == CalendarFormat.JSON ?</span>
-<span class="fc" id="L97">            CSVConverter.jsonToCSV(request.getFileContents()) :</span>
-<span class="fc" id="L98">            JSONConverter.csvToJSON(request.getFileContents());</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        return request.getType() == CalendarFormat.JSON ?</span>
+<span class="fc" id="L98">            CSVConverter.jsonToCSV(request.getFileContents()) :</span>
+<span class="fc" id="L99">            JSONConverter.csvToJSON(request.getFileContents());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

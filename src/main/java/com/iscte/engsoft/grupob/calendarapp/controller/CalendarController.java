@@ -28,12 +28,13 @@ public class CalendarController {
     private List<EventFrontend> listaEventos;
 
     /**
-     * Receives a remote location (url) that contains calendar data and downloads it.
-     *
-     * @param request
-     *          request.type: a data type (possible values JSON, WEBCAL or CSV)
-     *          request.url: the url specifying the calendar in "type" format
-     * @return the list of events in json format
+     * Recebe uma url com contém um calendário com eventos e que pode estar em
+     * diferentes formatos (WEBCAL, JSON ou CSV) e faz o donwload desse calendário
+     * para uma lista de eventos em memória
+     * @param request com dois campos internos (type e url)
+     *          request.type: enumerado com valores possíveis JSON, WEBCAL ou CSV
+     *          request.url: a url que está na origem do calendário a fazer o donwload
+     * @return lista de eventos obtidos.
      */
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<EventFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {

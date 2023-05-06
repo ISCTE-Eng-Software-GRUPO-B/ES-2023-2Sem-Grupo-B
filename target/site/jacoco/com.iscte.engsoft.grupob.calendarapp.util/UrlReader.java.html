@@ -8,28 +8,37 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-<span class="fc" id="L11">@Log4j2</span>
+/**
+ * Esta classe permite a leitura de uma url independentemente do formato
+ * (desde que seja formato de texto).
+* */
+<span class="fc" id="L15">@Log4j2</span>
 @Component
-<span class="fc" id="L13">public class UrlReader {</span>
+<span class="fc" id="L17">public class UrlReader {</span>
 
+    /**
+     * Lê o conteúdo de uma URL
+     * @param url string com a url a ler
+     * @return string com o conteúdo lido da url
+     */
     public String readFileFromUrl(String url) throws IOException {
 
-<span class="fc" id="L17">        URL urlObj = new URL(url);</span>
-<span class="fc" id="L18">        try (BufferedReader in =new BufferedReader(new InputStreamReader(urlObj.openStream()))) {</span>
+<span class="fc" id="L26">        URL urlObj = new URL(url);</span>
+<span class="fc" id="L27">        try (BufferedReader in =new BufferedReader(new InputStreamReader(urlObj.openStream()))) {</span>
 
-<span class="fc" id="L20">            StringBuilder output = new StringBuilder();</span>
+<span class="fc" id="L29">            StringBuilder output = new StringBuilder();</span>
             String inputLine;
 
-<span class="fc bfc" id="L23" title="All 2 branches covered.">            while ((inputLine = in.readLine()) != null) {</span>
-<span class="fc" id="L24">                output.append(inputLine+&quot;\r\n&quot;);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            while ((inputLine = in.readLine()) != null) {</span>
+<span class="fc" id="L33">                output.append(inputLine+&quot;\r\n&quot;);</span>
             }
 
-<span class="fc" id="L27">            return output.toString();</span>
-<span class="nc" id="L28">        } catch (IOException e) {</span>
-<span class="nc" id="L29">            log.error(&quot;Error while trying to consume remote calendar&quot;);</span>
+<span class="fc" id="L36">            return output.toString();</span>
+<span class="nc" id="L37">        } catch (IOException e) {</span>
+<span class="nc" id="L38">            log.error(&quot;Error while trying to consume remote calendar&quot;);</span>
         }
 
-<span class="nc" id="L32">        return &quot;&quot;;</span>
+<span class="nc" id="L41">        return &quot;&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
