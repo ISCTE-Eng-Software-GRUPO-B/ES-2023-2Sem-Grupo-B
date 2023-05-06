@@ -2,6 +2,8 @@ package com.iscte.engsoft.grupob.calendarapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Builder;
+import lombok.extern.jackson.Jacksonized;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,7 +21,9 @@ import java.time.LocalTime;
         "Sala atribuida a aula",
         "Lotacao da sala"
 })
-public abstract class Event {
+@Builder
+@Jacksonized
+public class Event {
 
     @JsonProperty("Curso")
     private String curso;
@@ -54,7 +58,4 @@ public abstract class Event {
     @JsonProperty("Lotacao da sala")
     private int lotacao;
 
-    public enum DiaDaSemana {
-        SEG,TER,QUA,QUI,SEX;
-    }
 }

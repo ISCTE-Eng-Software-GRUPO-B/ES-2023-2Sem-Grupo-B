@@ -1,11 +1,7 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
-import com.iscte.engsoft.grupob.calendarapp.model.CalendarFormat;
-import com.iscte.engsoft.grupob.calendarapp.model.ConsumeURLCalendarRequest;
-import com.iscte.engsoft.grupob.calendarapp.model.UploadCalendarFileRequest;
-import com.iscte.engsoft.grupob.calendarapp.util.CSVConverter;
-import com.iscte.engsoft.grupob.calendarapp.util.JSONConverter;
-import com.iscte.engsoft.grupob.calendarapp.util.UrlReader;
+import com.iscte.engsoft.grupob.calendarapp.model.*;
+import com.iscte.engsoft.grupob.calendarapp.util.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 
 @RestController
 @Validated
@@ -27,21 +25,52 @@ public class CalendarController {
     @Autowired
     private UrlReader urlReader;
 
+    private List<EventFrontend> listaEventos;
+
     /**
-     * Receives a remote location (url) that contains calendar data and downloads it.
-     * <a href="http://localhost:8256/calendar/consume/url">...</a>
-     * { "type": "JSON", "url": "<a href="https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json">...</a>"}
-     * @return the calendar in json format
+     * Recebe uma url com contém um calendário com eventos e que pode estar em
+     * diferentes formatos (WEBCAL, JSON ou CSV) e faz o donwload desse calendário
+     * para uma lista de eventos em memória
+     * @param request com dois campos internos (type e url)
+     *          request.type: enumerado com valores possíveis JSON, WEBCAL ou CSV
+     *          request.url: a url que está na origem do calendário a fazer o donwload
+     * @return lista de eventos obtidos.
      */
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
+    public List<EventFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
 
         log.info(String.format("Url: %s", request.getUrl()));
         log.info(String.format("UrlType: %s", request.getType()));
 
-        return  urlReader.readFileFromUrl(request.getUrl());
+        String url = request.getUrl();
+
+        //for webcal we need to change the protocol from webcal:// to https:// (for fenix) //TODO: improve
+        if (request.getType()==CalendarFormat.WEBCAL){
+            url = url.replace("webcal://", "https://");
+        }
+
+        String content = urlReader.readFileFromUrl(url);
+
+        CalendarFormat type =  request.getType();
+        UrlProcessor urlProcessor = null; //usa poliformismo para o parse
+        switch (type) {
+            case JSON:
+                urlProcessor = new UrlProcessorJson();
+                break;
+            case WEBCAL:
+                urlProcessor = new UrlProcessorWebcal();
+                break;
+            case CSV:
+                urlProcessor = new UrlProcessorCsv();
+                break;
+            default:
+                urlProcessor = new UrlProcessorJson();
+        }
+        this.listaEventos = urlProcessor.parseUrlContent(content);
+        return this.listaEventos;
 
     }
+
 
     /**
      * @param request a data type (e.g.: JSON/CSV) MultipartFile
