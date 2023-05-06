@@ -21,7 +21,7 @@ public class UrlReader {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                output.append(inputLine);
+                output.append(inputLine+"\r\n");
             }
 
             return output.toString();

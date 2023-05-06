@@ -18,12 +18,23 @@
 		<sonar.organization>iscte-eng-software-grupo-b</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
+	<repositories>
+		<repository>
+			<id>maven-central</id>
+			<name>Maven Central Repo</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
+			<id>atlassian</id>
+			<name>Atlassian Repo</name>
+			<url>https://packages.atlassian.com/maven-3rdparty/</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -72,6 +83,18 @@
 			<groupId>org.jacoco</groupId>
 			<artifactId>org.jacoco.report</artifactId>
 			<version>0.8.9</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.fortuna.ical4j/ical4j -->
+		<!--<dependency>
+			<groupId>net.fortuna.ical4j</groupId>
+			<artifactId>ical4j</artifactId>
+			<version>1.0-rc4-atlassian-12</version>
+		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j -->
+		<dependency>
+			<groupId>org.mnode.ical4j</groupId>
+			<artifactId>ical4j</artifactId>
+			<version>4.0.0-beta2</version>
 		</dependency>
 	</dependencies>
 

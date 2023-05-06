@@ -1,17 +1,7 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.iscte.engsoft.grupob.calendarapp.model.*;
-import com.iscte.engsoft.grupob.calendarapp.util.CSVConverter;
-import com.iscte.engsoft.grupob.calendarapp.util.CustomEventFrontendDeserializer;
-import com.iscte.engsoft.grupob.calendarapp.util.JSONConverter;
-import com.iscte.engsoft.grupob.calendarapp.util.UrlReader;
+import com.iscte.engsoft.grupob.calendarapp.util.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 
 @RestController
 @Validated
@@ -48,22 +39,35 @@ public class CalendarController {
         log.info(String.format("Url: %s", request.getUrl()));
         log.info(String.format("UrlType: %s", request.getType()));
 
-        String jsonEventsArray = urlReader.readFileFromUrl(request.getUrl());
+        String url = request.getUrl();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
-        SimpleModule module =
-                new SimpleModule("CustomEventFrontendDeserializer", new Version(1, 0, 0, null, null, null));
-        module.addDeserializer(EventFrontend.class, new CustomEventFrontendDeserializer());
-        objectMapper.registerModule(module);
+        //for webcal we need to change the protocol from webcal:// to https:// (for fenix) //TODO: improve
+        if (request.getType()==CalendarFormat.WEBCAL){
+            url = url.replace("webcal://", "https://");
+        }
 
-        //Set instance variable
-        this.listaEventos = objectMapper.readValue(jsonEventsArray, new TypeReference<List<EventFrontend>>(){});
+        String content = urlReader.readFileFromUrl(url);
 
-        return listaEventos;
+        CalendarFormat type =  request.getType();
+        UrlProcessor urlProcessor = null; //usa poliformismo para o parse
+        switch (type) {
+            case JSON:
+                urlProcessor = new UrlProcessorJson();
+                break;
+            case WEBCAL:
+                urlProcessor = new UrlProcessorWebcal();
+                break;
+            case CSV:
+                urlProcessor = new UrlProcessorCsv();
+                break;
+            default:
+                urlProcessor = new UrlProcessorJson();
+        }
+        this.listaEventos = urlProcessor.parseUrlContent(content);
+        return this.listaEventos;
 
     }
+
 
     /**
      * @param request a data type (e.g.: JSON/CSV) MultipartFile

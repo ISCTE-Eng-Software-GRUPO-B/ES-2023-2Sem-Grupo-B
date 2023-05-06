@@ -22,7 +22,7 @@ class UtilsTest {
         UrlReader reader = new UrlReader();
         String resultJson = reader.readFileFromUrl("https://raw.githubusercontent.com/ISCTE-Eng-Software-GRUPO-B/ES-2023-2Sem-Sexta-Feira-LIGEPL-GrupoB/main/src/test/resources/test.json");
 
-        log.info(String.format("resultJson: %s", resultJson));
+        //log.info(String.format("resultJson: %s", resultJson));
 
         String expected = "\"Unidade Curricular\" : \"MÃƒÂ©todosdePesquisaemCiÃƒÂªnciasSociais\",";
         byte[] byteArray= expected.getBytes();

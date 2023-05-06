@@ -56,6 +56,7 @@ class CalendarControllerTest {
         assertTrue(controller.consumeFile(createUploadFileRequestWithUnreadableFile()).isEmpty());
     }
 
+
     @Test
     void consumeUrlSuccess() throws IOException {
 
