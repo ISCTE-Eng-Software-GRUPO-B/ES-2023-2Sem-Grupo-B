@@ -9,9 +9,10 @@ import java.util.List;
 public class UrlProcessorCsv extends UrlProcessor{
 
     public List<EventFrontend> parseUrlContent(String content) throws IOException {
+        String jsonContent = JSONConverter.csvToJSON(content);
+        UrlProcessorJson processorJson = new UrlProcessorJson();
 
-        return new ArrayList<>(); //TODO Implement parse da URL com um CSV
-
+        return processorJson.parseUrlContent(jsonContent);
     }
 
 }
