@@ -13,7 +13,7 @@
 <h1>Calendário</h1>
 <div id='calendar'></div>
 
-    <form class="" action="processData.js" method="post"> <br>
+    <form class="" method="post"> <br>
 
         <p>Escolha a forma de carregar o calendário</p>
 
@@ -33,13 +33,13 @@
         <div id="hideFile">
             <input type="file" name="file"> <br>
             <label>Carregar novo calendário</label> <br>
-            <button type="submit" value = "Carregar Calendario" id="formIdfile">Carregar Calendario</button>
+            <button type="submit" action = "calendar/consume/file"value = "Carregar Calendario" id="formIdfile">Carregar Calendario</button>
         </div>
 
         <div id="showFile">
             <input type="url" name="url" placeholder="Insira URL">
             <label for="url">Inserir URL</label>
-            <input type="submit" value = "Carregar Calendario" id="formIdUrl">
+            <input type="submit" action="calendar/consume/url" value = "Carregar Calendario" id="formIdUrl">
         </div>
     </form>
 
