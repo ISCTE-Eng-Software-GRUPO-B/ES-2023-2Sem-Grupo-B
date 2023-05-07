@@ -31,3 +31,6 @@ Esta aplicação Java serve como backend para a aplicação calendário da cadei
 
 ### Documentação de referência
 Para mais informação sobre a stack utilizada neste projecto por favor consultar o documento de markdown HELP.md
+
+### Funcionalidades em falta
+Ficou por implementar a funcionalidade da sobrelotação.
