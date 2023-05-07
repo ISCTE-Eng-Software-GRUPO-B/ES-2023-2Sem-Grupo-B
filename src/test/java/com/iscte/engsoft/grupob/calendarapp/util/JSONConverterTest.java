@@ -55,9 +55,6 @@ class JSONConverterTest {
 
             String content2 = JSONConverter.csvToJSON(content);
 
-            //log.info(String.format("File from disk: %s", content1));
-            //log.info(String.format("File from csvToJSON: %s", content2));
-
             Assertions.assertEquals(content1, content2);
         } catch (IOException e) {
             throw new RuntimeException(e);

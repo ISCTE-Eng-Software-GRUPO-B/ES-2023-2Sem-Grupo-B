@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Carreguar novo calendário</title>
+  </head>
+  <body>
+    <h1>Carregue o ficheiro</h1>
+    <form class="" action="processData.js" method="post"> <br>
+
+      <p>Escolha a forma de carregar o calendário</p>
+
+      <input type="radio" id="CSV"name="type" value="CSV">
+      <label for="CSV">Ficheiro CSV</label> <br>
+
+
+      <input type="radio" id="JSON"name="type" value="JSON">
+      <label for="JSON">Ficheiro JSON</label> <br>
+
+
+
+      <input type="radio" id="URL" name="type" value="URL">
+      <label for="URL">URL</label><br>
+
+
+      <div id="hideFile">
+        <input type="file" name="file"> <br>
+        <label>Carregar novo calendário</label> <br>
+        <button type="submit" value = "Carregar Calendario" id="formIdfile">Carregar Calendario</button>
+      </div>
+
+      <div id="showFile">
+        <input type="url" name="url" placeholder="Insira URL">
+        <label for="url">Inserir URL</label>
+        <input type="submit" value = "Carregar Calendario" id="formIdUrl">
+      </div>
+
+
+<br>
+    </form>
+
+    <script type="text/javascript">
+      const radioCSV = document.getElementById("CSV");
+      const radioJSON = document.getElementById("JSON");
+    const radioURL = document.getElementById("URL");
+    const inputContainerFile = document.getElementById("hideFile");
+    const inputContainerUrl = document.getElementById("showFile");
+    //  document.getElementById("formIdFile").action = "\calendar\consume\file";
+    //  document.getElementById("formIdUrl").action = "\calendar\consume\url";
+
+
+    radioJSON.addEventListener("click", () => {
+      if (radioJSON.checked) {
+        inputContainerFile.style.display = "block";
+        inputContainerUrl.style.display = "none";
+      }
+    });
+
+    radioCSV.addEventListener("click", () => {
+      if (radioCSV.checked) {
+        inputContainerFile.style.display = "block";
+        inputContainerUrl.style.display = "none";
+      }
+    });
+
+    radioURL.addEventListener("click", () => {
+      if (radioURL.checked) {
+        inputContainerFile.style.display = "none";
+        inputContainerUrl.style.display = "block";
+      }
+    });
+
+
+    </script>
+  </body>
+</html>

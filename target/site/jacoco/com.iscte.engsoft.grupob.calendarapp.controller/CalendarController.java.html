@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalendarController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CalendarApp</a> &gt; <a href="index.source.html" class="el_package">com.iscte.engsoft.grupob.calendarapp.controller</a> &gt; <span class="el_source">CalendarController.java</span></div><h1>CalendarController.java</h1><pre class="source lang-java linenums">package com.iscte.engsoft.grupob.calendarapp.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.iscte.engsoft.grupob.calendarapp.mapper.EventTheRealFrontendMapper;
+import com.iscte.engsoft.grupob.calendarapp.model.*;
+import com.iscte.engsoft.grupob.calendarapp.util.*;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Esta classe implementa o controlador principal da aplicação em MVC
+ */
+@RestController
+@Validated
+@RequestMapping(value = &quot;/calendar&quot;, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+<span class="fc" id="L32">@Log4j2</span>
+<span class="fc" id="L33">public class CalendarController {</span>
+
+    @Autowired
+    private UrlReader urlReader;
+
+<span class="fc" id="L38">    private List&lt;EventFrontend&gt; listaEventos = Collections.emptyList();</span>
+
+    /**
+     * @return the calendar already persisted data in JSON format
+     */
+    @GetMapping(path = &quot;/get&quot;, consumes = MediaType.ALL_VALUE)
+    public List&lt;EventTheRealFrontend&gt; get() {
+<span class="nc" id="L45">        return getFrontEndEvents();</span>
+    }
+
+    /**
+     * Recebe uma url com contém um calendário com eventos e que pode estar em
+     * diferentes formatos (WEBCAL, JSON ou CSV) e faz o donwload desse calendário
+     * para uma lista de eventos em memória
+     * @param request com dois campos internos (type e url)
+     *          request.type: enumerado com valores possíveis JSON, WEBCAL ou CSV
+     *          request.url: a url que está na origem do calendário a fazer o donwload
+     * @return lista de eventos obtidos.
+     */
+    @PostMapping(value = &quot;/consume/url&quot;, consumes = MediaType.ALL_VALUE)
+    public RedirectView consumeUrl(@ModelAttribute ConsumeURLCalendarRequest request) throws IOException {
+<span class="fc" id="L59">        String url = request.getUrl();</span>
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (request.getType() == CalendarFormat.WEBCAL){</span>
+<span class="nc" id="L62">            url = url.replace(&quot;webcal://&quot;, &quot;https://&quot;);</span>
+        }
+
+<span class="fc" id="L65">        String content = urlReader.readFileFromUrl(url);</span>
+
+<span class="pc bpc" id="L67" title="3 of 4 branches missed.">        UrlProcessor urlProcessor = switch (request.getType()) {</span>
+<span class="fc" id="L68">            case JSON -&gt; new UrlProcessorJson();</span>
+<span class="nc" id="L69">            case WEBCAL -&gt; new UrlProcessorWebcal();</span>
+<span class="nc" id="L70">            case CSV -&gt; new UrlProcessorCsv();</span>
+<span class="pc" id="L71">            default -&gt; new UrlProcessorJson();</span>
+        };
+<span class="fc" id="L73">        this.listaEventos = urlProcessor.parseUrlContent(content);</span>
+
+<span class="fc" id="L75">        return new RedirectView(&quot;/index.html&quot;);</span>
+    }
+
+
+    /**
+     * @param request a data type (e.g.: JSON/CSV) MultipartFile
+     * @return the calendar data in JSON format
+     */
+    @PostMapping(path = &quot;/consume/file&quot;, consumes = MediaType.ALL_VALUE)
+    public RedirectView consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
+        try {
+<span class="pc bpc" id="L86" title="2 of 3 branches missed.">            UrlProcessor urlProcessor = switch (request.getType()) {</span>
+<span class="fc" id="L87">                case JSON -&gt; new UrlProcessorJson();</span>
+<span class="nc" id="L88">                case CSV -&gt; new UrlProcessorCsv();</span>
+<span class="pc" id="L89">                default -&gt; new UrlProcessorJson();</span>
+            };
+
+<span class="nc" id="L92">            this.listaEventos = urlProcessor.parseUrlContent(new String(request.getFile().getBytes(), StandardCharsets.UTF_8));</span>
+<span class="fc" id="L93">        } catch (IOException e) {</span>
+<span class="fc" id="L94">            log.atError().log(&quot;Error reading file contents&quot;);</span>
+<span class="nc" id="L95">        }</span>
+
+<span class="fc" id="L97">        return new RedirectView(&quot;/index.html&quot;);</span>
+    }
+
+    /**
+     * Converts the input file to the opposite type
+     * @param request a data type (e.g.: JSON/CSV) MultipartFile
+     * @return the calendar data in the opposite format, e.g.: IN -&gt; CSV -&gt; Out -&gt; JSON; IN -&gt; JSON -&gt; Out -&gt; CSV;
+     */
+    @PostMapping(path = &quot;/convert&quot;, consumes = MediaType.ALL_VALUE)
+    public String convert(@ModelAttribute UploadCalendarFileRequest request) {
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        return request.getType() == CalendarFormat.JSON ?</span>
+<span class="fc" id="L108">            CSVConverter.jsonToCSV(request.getFileContents()) :</span>
+<span class="fc" id="L109">            JSONConverter.csvToJSON(request.getFileContents());</span>
+    }
+
+
+    @PostMapping(path = &quot;/upload/json&quot;, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadJson(@ModelAttribute UploadJsonRequest request) {
+        try {
+<span class="nc" id="L116">            UrlProcessorJson processor = new UrlProcessorJson();</span>
+<span class="nc" id="L117">            this.listaEventos = processor.parseUrlContent(request.getJsonContent());</span>
+<span class="nc" id="L118">        } catch (IOException e) {</span>
+<span class="nc" id="L119">            log.atError().log(&quot;Error reading file contents&quot;);</span>
+<span class="nc" id="L120">        }</span>
+<span class="nc" id="L121">    }</span>
+
+    @PostMapping(path = &quot;/download&quot;, consumes = MediaType.ALL_VALUE)
+    public String download(@ModelAttribute DownloadRequest request) {
+        try {
+<span class="nc" id="L126">            ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="nc" id="L127">            objectMapper.registerModule(new JavaTimeModule());</span>
+
+<span class="nc" id="L129">            listaEventos = Arrays.stream(objectMapper.readValue(request.getEvents(), EventFrontend[].class)).toList();</span>
+<span class="nc" id="L130">        } catch (IOException e) {</span>
+<span class="nc" id="L131">            log.atError().log(&quot;Error reading frontend events&quot;);</span>
+<span class="nc" id="L132">        }</span>
+
+<span class="nc" id="L134">        return request.getEvents();</span>
+    }
+
+    private List&lt;EventTheRealFrontend&gt; getFrontEndEvents() {
+<span class="nc" id="L138">        return listaEventos.stream().map(EventTheRealFrontendMapper::fromAnotherEvent).collect(Collectors.toList());</span>
+    }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
