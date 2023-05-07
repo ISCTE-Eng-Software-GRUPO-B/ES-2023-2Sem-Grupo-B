@@ -10,6 +10,9 @@ import lombok.extern.jackson.Jacksonized;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Classe que representa o HTTP request para upload do ficheiro
+ */
 @Log4j2
 @Builder
 @Value

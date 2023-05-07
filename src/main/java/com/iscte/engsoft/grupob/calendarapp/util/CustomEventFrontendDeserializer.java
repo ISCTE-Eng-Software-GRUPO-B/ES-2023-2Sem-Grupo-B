@@ -13,6 +13,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Esta classe implementa a desserialização do Json do calendário para a estrutura
+ * interna de dados que guarda em memória no programa o calendário com a lista de eventos
+ */
 public class CustomEventFrontendDeserializer extends StdDeserializer<EventFrontend> {
 
     public CustomEventFrontendDeserializer() {

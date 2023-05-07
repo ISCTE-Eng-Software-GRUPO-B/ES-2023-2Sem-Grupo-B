@@ -5,6 +5,10 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Classe que representa um Evento no formato interno da aplicação (que é o mesmo passado para o
+ * frontend para a API do calendário em JavaScript)
+ */
 @Data
 public class EventFrontend {
 

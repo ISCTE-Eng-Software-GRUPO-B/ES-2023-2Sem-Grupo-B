@@ -10,61 +10,64 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+/**
+ * Classe que implementa a conversão CSV para JSON
+ */
 public class JSONConverter {
 
 	private JSONConverter(){}
 
 	public static boolean isValidCSV(String content) {
-<span class="fc" id="L18">		String header = content.substring(0,content.indexOf(&quot;\n&quot;));</span>
-<span class="fc" id="L19">		String headerFormat = &quot;Curso,\&quot;Unidade Curricular\&quot;,Turno,Turma,\&quot;Inscritos no turno\&quot;,\&quot;Dia da semana\&quot;,\&quot;Hora inicio da aula\&quot;,\&quot;Hora fim da aula\&quot;,\&quot;Data da aula\&quot;,\&quot;Sala atribuida a aula\&quot;,\&quot;Lotacao da sala\&quot;&quot;;</span>
-<span class="fc" id="L20">		int n = header.compareTo(headerFormat);</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">		return n == 0;</span>
+<span class="fc" id="L21">		String header = content.substring(0,content.indexOf(&quot;\n&quot;));</span>
+<span class="fc" id="L22">		String headerFormat = &quot;Curso,\&quot;Unidade Curricular\&quot;,Turno,Turma,\&quot;Inscritos no turno\&quot;,\&quot;Dia da semana\&quot;,\&quot;Hora inicio da aula\&quot;,\&quot;Hora fim da aula\&quot;,\&quot;Data da aula\&quot;,\&quot;Sala atribuida a aula\&quot;,\&quot;Lotacao da sala\&quot;&quot;;</span>
+<span class="fc" id="L23">		int n = header.compareTo(headerFormat);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		return n == 0;</span>
 	}
 
 	public static String csvToJSON(String content) {
 
-<span class="fc bfc" id="L26" title="All 2 branches covered.">		if(!isValidCSV(content)){ return &quot;&quot;; }</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">		if(!isValidCSV(content)){ return &quot;&quot;; }</span>
 		
-<span class="fc" id="L28">		String convertedContent = &quot;&quot;;</span>
+<span class="fc" id="L31">		String convertedContent = &quot;&quot;;</span>
 
 		try {
-<span class="fc" id="L31">			CSVHandler csv = new CSVHandler(true, ',', content);</span>
+<span class="fc" id="L34">			CSVHandler csv = new CSVHandler(true, ',', content);</span>
 
 			List&lt;String&gt; fieldNames;
 
-<span class="fc" id="L35">			List&lt;Map&lt;String, String&gt;&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L38">			List&lt;Map&lt;String, String&gt;&gt; list = new ArrayList&lt;&gt;();</span>
 
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">			if (csv.hasNext()) {</span>
-<span class="fc" id="L38">				fieldNames = new ArrayList&lt;&gt;(csv.next());</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">			if (csv.hasNext()) {</span>
+<span class="fc" id="L41">				fieldNames = new ArrayList&lt;&gt;(csv.next());</span>
 
-<span class="fc bfc" id="L40" title="All 2 branches covered.">				while (csv.hasNext()) {</span>
-<span class="fc" id="L41">					List&lt;String&gt; x = csv.next();</span>
-<span class="fc" id="L42">					Map&lt;String, String&gt; obj = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">				while (csv.hasNext()) {</span>
+<span class="fc" id="L44">					List&lt;String&gt; x = csv.next();</span>
+<span class="fc" id="L45">					Map&lt;String, String&gt; obj = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc bfc" id="L44" title="All 2 branches covered.">					for (int i = 0; i &lt; x.size(); i++) {</span>
-<span class="fc" id="L45">						obj.put(fieldNames.get(i), x.get(i));</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">					for (int i = 0; i &lt; x.size(); i++) {</span>
+<span class="fc" id="L48">						obj.put(fieldNames.get(i), x.get(i));</span>
 					}
 
-<span class="fc" id="L48">					list.add(obj);</span>
-<span class="fc" id="L49">				}</span>
-<span class="fc" id="L50">				convertedContent = saveConvertedContentToVariable(list);</span>
+<span class="fc" id="L51">					list.add(obj);</span>
+<span class="fc" id="L52">				}</span>
+<span class="fc" id="L53">				convertedContent = saveConvertedContentToVariable(list);</span>
 			}
 
-<span class="nc" id="L53">		} catch (IOException e) {</span>
-<span class="nc" id="L54">				throw new IllegalArgumentException(e);</span>
-<span class="fc" id="L55">			}</span>
+<span class="nc" id="L56">		} catch (IOException e) {</span>
+<span class="nc" id="L57">				throw new IllegalArgumentException(e);</span>
+<span class="fc" id="L58">			}</span>
 
-<span class="fc" id="L57">		return convertedContent;</span>
+<span class="fc" id="L60">		return convertedContent;</span>
 	}
 
 	public static String saveConvertedContentToVariable(List&lt;Map&lt;String, String&gt;&gt; list){
-<span class="fc" id="L61">		ObjectMapper mapper = new ObjectMapper();</span>
-<span class="fc" id="L62">		mapper.enable(SerializationFeature.INDENT_OUTPUT);</span>
+<span class="fc" id="L64">		ObjectMapper mapper = new ObjectMapper();</span>
+<span class="fc" id="L65">		mapper.enable(SerializationFeature.INDENT_OUTPUT);</span>
 		try {
-<span class="fc" id="L64">			return mapper.writeValueAsString(list);</span>
+<span class="fc" id="L67">			return mapper.writeValueAsString(list);</span>
 			
-<span class="nc" id="L66">		} catch (JsonProcessingException e) {</span>
-<span class="nc" id="L67">			throw new IllegalArgumentException(e);</span>
+<span class="nc" id="L69">		} catch (JsonProcessingException e) {</span>
+<span class="nc" id="L70">			throw new IllegalArgumentException(e);</span>
 		}
 	}
 }

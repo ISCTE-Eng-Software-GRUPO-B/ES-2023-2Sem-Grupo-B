@@ -5,6 +5,10 @@ import lombok.extern.log4j.Log4j2;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Esta classe permite converter a data e a hora para o formato apropriado para
+ * a api do calendário em JavaScript
+ */
 @Log4j2
 public class DateConverter {
 

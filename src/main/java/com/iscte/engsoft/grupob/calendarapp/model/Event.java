@@ -8,6 +8,9 @@ import lombok.extern.jackson.Jacksonized;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Classe que representa um evento no formato do ficheiro CSV
+ */
 @JsonPropertyOrder({
         "Curso",
         "Unidade Curricular",

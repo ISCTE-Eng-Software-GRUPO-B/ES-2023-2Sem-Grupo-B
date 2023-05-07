@@ -5,7 +5,10 @@ import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 
-/* Inspirado na class CSV de Jay Sridhar */
+/**
+ *  Classe utilitária para o parsing de CSV
+ *  Inspirado na class CSV de Jay Sridhar
+ *  */
 public class CSVHandler {
 	private static final int NUMMARK = 10;
 	private static final char DQUOTE = '"';

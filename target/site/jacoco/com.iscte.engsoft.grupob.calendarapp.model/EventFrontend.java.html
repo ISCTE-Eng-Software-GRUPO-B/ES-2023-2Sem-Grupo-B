@@ -5,34 +5,38 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-<span class="pc bpc" id="L8" title="59 of 82 branches missed.">@Data</span>
+/**
+ * Classe que representa um Evento no formato interno da aplicação (que é o mesmo passado para o
+ * frontend para a API do calendário em JavaScript)
+ */
+<span class="pc bpc" id="L12" title="59 of 82 branches missed.">@Data</span>
 public class EventFrontend {
 
-<span class="fc" id="L11">    public EventFrontend() {</span>
+<span class="fc" id="L15">    public EventFrontend() {</span>
         //Empty constructor
-<span class="fc" id="L13">    }</span>
+<span class="fc" id="L17">    }</span>
 
-<span class="fc" id="L15">    private String curso;</span>
+<span class="fc" id="L19">    private String curso;</span>
 
-<span class="fc" id="L17">    private String uc;</span>
+<span class="fc" id="L21">    private String uc;</span>
 
-<span class="fc" id="L19">    private String turno;</span>
+<span class="fc" id="L23">    private String turno;</span>
 
-<span class="fc" id="L21">    private String turma;</span>
+<span class="fc" id="L25">    private String turma;</span>
 
-<span class="fc" id="L23">    private int inscritos;</span>
+<span class="fc" id="L27">    private int inscritos;</span>
 
-<span class="fc" id="L25">    private DiaDaSemana diaDaSemana;</span>
+<span class="fc" id="L29">    private DiaDaSemana diaDaSemana;</span>
 
-<span class="fc" id="L27">    private LocalTime horaInicio;</span>
+<span class="fc" id="L31">    private LocalTime horaInicio;</span>
 
-<span class="fc" id="L29">    private LocalTime horaFim;</span>
+<span class="fc" id="L33">    private LocalTime horaFim;</span>
 
-<span class="fc" id="L31">    private LocalDate dataAula;</span>
+<span class="fc" id="L35">    private LocalDate dataAula;</span>
 
-<span class="fc" id="L33">    private String salaAtribuida;</span>
+<span class="fc" id="L37">    private String salaAtribuida;</span>
 
-<span class="fc" id="L35">    private int lotacao;</span>
+<span class="fc" id="L39">    private int lotacao;</span>
 
 
 }
