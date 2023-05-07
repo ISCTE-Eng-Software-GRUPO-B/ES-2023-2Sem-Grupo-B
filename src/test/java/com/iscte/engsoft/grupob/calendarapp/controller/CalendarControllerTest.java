@@ -59,7 +59,6 @@ class CalendarControllerTest {
 
     @Test
     void consumeUrlSuccess() throws IOException {
-
         String output = "[ {\n" +
                 "  \"Curso\" : \"MCP,MCTRL,MES,MEA,MPP,MS\",\n" +
                 "  \"Unidade Curricular\" : \"MÃƒÂ©todosdePesquisaemCiÃƒÂªnciasSociais\",\n" +
@@ -99,10 +98,8 @@ class CalendarControllerTest {
             "https://raw.githubusercontent.com/ISCTE-Eng-Software-GRUPO-B/ES-2023-2Sem-Sexta-Feira-LIGEPL-GrupoB/main/src/test/resources/test.json")
         ).thenReturn(output);
 
-        List<EventTheRealFrontend> listaEventos = controller.consumeUrl(request);
-        log.info(String.format("List Size: %s", String.valueOf(listaEventos.size())));
 
-        assertEquals(1, listaEventos.size());
+        assertDoesNotThrow(() -> controller.consumeUrl(request));
     }
 
     @Test

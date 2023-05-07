@@ -46,7 +46,7 @@ $(document).ready(function () {
         columnHeaderFormat: 'dddd DD/MM',
         slotLabelFormat: 'HH:mm',
         slotDuration: '00:30:00',
-        minTime: '08:30:00',
+        minTime: '08:00:00',
         maxTime: '23:00:00',
         eventClick: function (event) {
             var popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');

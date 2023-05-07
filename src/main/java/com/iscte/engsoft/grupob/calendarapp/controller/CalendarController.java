@@ -51,8 +51,8 @@ public class CalendarController {
      *          request.url: a url que está na origem do calendário a fazer o donwload
      * @return lista de eventos obtidos.
      */
-    @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<EventTheRealFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
+    @PostMapping(value = "/consume/url", consumes = MediaType.ALL_VALUE)
+    public RedirectView consumeUrl(@ModelAttribute ConsumeURLCalendarRequest request) throws IOException {
         String url = request.getUrl();
 
         if (request.getType() == CalendarFormat.WEBCAL){
@@ -70,7 +70,7 @@ public class CalendarController {
         };
         this.listaEventos = urlProcessor.parseUrlContent(content);
 
-        return getFrontEndEvents();
+        return new RedirectView("/index.html");
     }
 
 
