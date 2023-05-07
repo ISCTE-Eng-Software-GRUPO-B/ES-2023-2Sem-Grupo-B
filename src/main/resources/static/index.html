@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.print.min.css"
           media="print"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css"/>
     <title>Teste</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,93 +14,114 @@
 <h1>Calendário</h1>
 <div id='calendar'></div>
 
-    <form class="" method="post"> <br>
-
-        <p>Escolha a forma de carregar o calendário</p>
-
-        <input type="radio" id="CSV"name="type" value="CSV">
-        <label for="CSV">Ficheiro CSV</label> <br>
-
-
-        <input type="radio" id="JSON"name="type" value="JSON">
-        <label for="JSON">Ficheiro JSON</label> <br>
-
-
-
-        <input type="radio" id="URL" name="type" value="URL">
-        <label for="URL">URL</label><br>
-
-
-        <div id="hideFile">
-            <input type="file" name="file"> <br>
-            <label>Carregar novo calendário</label> <br>
-            <button type="submit" action = "calendar/consume/file"value = "Carregar Calendario" id="formIdfile">Carregar Calendario</button>
-        </div>
-
-        <div id="showFile">
-            <input type="url" name="url" placeholder="Insira URL">
-            <label for="url">Inserir URL</label>
-            <input type="submit" action="calendar/consume/url" value = "Carregar Calendario" id="formIdUrl">
-        </div>
-    </form>
-
-    <form id="estilo">
-        <br>
-        <input type="radio" id="CSV1" name="choose" value="CSV">
-        <label for="CSV"> Download Calendar CSV</label>
-        <br><br>
-
-        <input type="radio" id="JSON1" name="choose" value="JSON">
-        <label for="JSON"> Download Calendar JSON</label>
-        <br> <br>
-        <button type="button" id="download">Download</button>
-    </form>
-
-
-
-
 <br>
 
+<div class="container mt-6">
 
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#upload-file">Carregar calendário via ficheiro</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#remote-url-upload">Carregar calendário via URL</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#download-calendar">Download Calendário</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- Upload File Tab -->
+        <div id="upload-file" class="tab-pane active">
+            <form action="/calendar/consume/file" method="post">
+                <div class="form-group">
+                    <label for="file">Choose file</label>
+                    <input type="file" class="form-control-file" id="file" name="file">
+                </div>
+                <div class="form-group">
+                    <label for="type">File type:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="CSV" checked>
+                        <label class="form-check-label">
+                            CSV
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="JSON">
+                        <label class="form-check-label">
+                            JSON
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Carregar</button>
+            </form>
+        </div>
+
+        <!-- Remote URL Upload Tab -->
+        <div id="remote-url-upload" class="tab-pane">
+            <form action="/calendar/consume/url" method="post">
+                <div class="form-group">
+                    <label for="url">URL:</label>
+                    <input type="text" class="form-control" id="url" name="url">
+                </div>
+                <div class="form-group">
+                    <label>File type:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="CSV" checked>
+                        <label class="form-check-label">
+                            CSV
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="JSON">
+                        <label class="form-check-label">
+                            JSON
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="WEBCAL">
+                        <label class="form-check-label">
+                            WEBCAL
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Carregar</button>
+            </form>
+        </div>
+
+        <!-- Download Calendar Tab -->
+        <div id="download-calendar" class="tab-pane">
+            <form action="/calendar/download" method="post">
+                <div class="form-group">
+                    <label for="type">File type:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="CSV" checked>
+                        <label class="form-check-label">
+                            CSV
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" value="JSON">
+                        <label class="form-check-label">
+                            JSON
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Download</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <script src="calendarioPortugues.js"></script>
-<script type="text/javascript">
-    const radioCSV = document.getElementById("CSV");
-    const radioJSON = document.getElementById("JSON");
-    const radioURL = document.getElementById("URL");
-    const inputContainerFile = document.getElementById("hideFile");
-    const inputContainerUrl = document.getElementById("showFile");
-    //  document.getElementById("formIdFile").action = "\calendar\consume\file";
-    //  document.getElementById("formIdUrl").action = "\calendar\consume\url";
-
-
-    radioJSON.addEventListener("click", () => {
-        if (radioJSON.checked) {
-            inputContainerFile.style.display = "block";
-            inputContainerUrl.style.display = "none";
-        }
-    });
-
-    radioCSV.addEventListener("click", () => {
-        if (radioCSV.checked) {
-            inputContainerFile.style.display = "block";
-            inputContainerUrl.style.display = "none";
-        }
-    });
-
-    radioURL.addEventListener("click", () => {
-        if (radioURL.checked) {
-            inputContainerFile.style.display = "none";
-            inputContainerUrl.style.display = "block";
-        }
-    });
-
-
-</script>
 
 </body>
 </html>

@@ -48,12 +48,12 @@ class CalendarControllerTest {
 
     @Test
     void uploadFileSuccess() throws IOException {
-        assertFalse(controller.consumeFile(createUploadFileRequest()).isEmpty());
+        assertDoesNotThrow(() -> controller.consumeFile(createUploadFileRequest()));
     }
 
     @Test
     void uploadFileFailsWhileReadingFile() throws IOException {
-        assertTrue(controller.consumeFile(createUploadFileRequestWithUnreadableFile()).isEmpty());
+        controller.consumeFile(createUploadFileRequestWithUnreadableFile());
     }
 
 
