@@ -6,11 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L9">public class UrlProcessorCsv extends UrlProcessor{</span>
+/**
+ * Esta classe estende a classe UrlProcessor para fazer o parsing de conteúdo CSV
+ * */
+<span class="nc" id="L12">public class UrlProcessorCsv extends UrlProcessor{</span>
 
     public List&lt;EventFrontend&gt; parseUrlContent(String content) throws IOException {
 
-<span class="nc" id="L13">        return new ArrayList&lt;&gt;(); //TODO Implement parse da URL com um CSV</span>
+<span class="nc" id="L16">        String jsonContent = JSONConverter.csvToJSON(content);</span>
+<span class="nc" id="L17">        UrlProcessorJson processorJson = new UrlProcessorJson();</span>
+<span class="nc" id="L18">        List&lt;EventFrontend&gt; list = processorJson.parseUrlContent(jsonContent);</span>
+
+<span class="nc" id="L20">        return list;</span>
 
     }
 
