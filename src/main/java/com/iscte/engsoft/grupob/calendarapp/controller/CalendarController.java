@@ -23,7 +23,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Esta classe implementa o controlador principal da aplicação em MVC
+ */
 @RestController
 @Validated
 @RequestMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

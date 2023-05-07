@@ -9,6 +9,9 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.iscte.engsoft.grupob.calendarapp.model.Event;
 
+/**
+ * Classe que implementa a conversão JSON para CSV
+ */
 public class CSVConverter {
 
 	private CSVConverter(){}

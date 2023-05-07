@@ -11,6 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.StringTokenizer;
 
+/**
+ * Esta classe permite desserializar um evento WEBCAL num evento do classe EventFrontend,
+ * o qual poderá posteriormente ser consumido pela aplicação frontend (JavaScript)
+ * */
 @Log4j2
 public class VEvent2EventConverter {
 
