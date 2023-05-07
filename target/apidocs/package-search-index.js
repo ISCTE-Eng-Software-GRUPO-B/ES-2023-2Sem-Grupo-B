@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.iscte.engsoft.grupob.calendarapp"},{"l":"com.iscte.engsoft.grupob.calendarapp.controller"},{"l":"com.iscte.engsoft.grupob.calendarapp.mapper"},{"l":"com.iscte.engsoft.grupob.calendarapp.model"},{"l":"com.iscte.engsoft.grupob.calendarapp.util"}];updateSearchResults();
