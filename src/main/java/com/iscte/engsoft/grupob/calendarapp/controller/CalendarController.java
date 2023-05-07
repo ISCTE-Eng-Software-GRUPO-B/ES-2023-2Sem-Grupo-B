@@ -39,6 +39,8 @@ public class CalendarController {
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<EventFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
 
+        this.listaEventos = null; //a cada invocação deita fora a lista anterior
+
         log.info(String.format("Url: %s", request.getUrl()));
         log.info(String.format("UrlType: %s", request.getType()));
 

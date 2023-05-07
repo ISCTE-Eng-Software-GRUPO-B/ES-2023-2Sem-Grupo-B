@@ -12,6 +12,9 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Esta classe estende a classe UrlProcessor para fazer o parsing de conteúdo WEBCAL
+ * */
 public class UrlProcessorWebcal extends UrlProcessor{
 
     public List<EventFrontend> parseUrlContent(String content) throws IOException {

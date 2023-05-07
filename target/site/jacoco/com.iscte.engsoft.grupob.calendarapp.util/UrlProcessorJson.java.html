@@ -10,20 +10,23 @@ import com.iscte.engsoft.grupob.calendarapp.model.EventFrontend;
 import java.io.IOException;
 import java.util.List;
 
-<span class="fc" id="L13">public class UrlProcessorJson extends UrlProcessor{</span>
+/**
+ * Esta classe estende a classe UrlProcessor para fazer o parsing de conteúdo JSON
+ * */
+<span class="fc" id="L16">public class UrlProcessorJson extends UrlProcessor{</span>
 
     public List&lt;EventFrontend&gt; parseUrlContent(String content) throws IOException {
 
-<span class="fc" id="L17">        ObjectMapper objectMapper = new ObjectMapper();</span>
-<span class="fc" id="L18">        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);</span>
-<span class="fc" id="L19">        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);</span>
-<span class="fc" id="L20">        SimpleModule module =</span>
+<span class="fc" id="L20">        ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L21">        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);</span>
+<span class="fc" id="L22">        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);</span>
+<span class="fc" id="L23">        SimpleModule module =</span>
                 new SimpleModule(&quot;CustomEventFrontendDeserializer&quot;, new Version(1, 0, 0, null, null, null));
-<span class="fc" id="L22">        module.addDeserializer(EventFrontend.class, new CustomEventFrontendDeserializer());</span>
-<span class="fc" id="L23">        objectMapper.registerModule(module);</span>
+<span class="fc" id="L25">        module.addDeserializer(EventFrontend.class, new CustomEventFrontendDeserializer());</span>
+<span class="fc" id="L26">        objectMapper.registerModule(module);</span>
 
         //Set instance variable
-<span class="fc" id="L26">        return objectMapper.readValue(content, new TypeReference&lt;List&lt;EventFrontend&gt;&gt;(){});</span>
+<span class="fc" id="L29">        return objectMapper.readValue(content, new TypeReference&lt;List&lt;EventFrontend&gt;&gt;(){});</span>
 
 
     }

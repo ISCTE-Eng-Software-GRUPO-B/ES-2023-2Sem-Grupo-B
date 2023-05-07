@@ -10,6 +10,9 @@ import com.iscte.engsoft.grupob.calendarapp.model.EventFrontend;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Esta classe estende a classe UrlProcessor para fazer o parsing de conteúdo JSON
+ * */
 public class UrlProcessorJson extends UrlProcessor{
 
     public List<EventFrontend> parseUrlContent(String content) throws IOException {
