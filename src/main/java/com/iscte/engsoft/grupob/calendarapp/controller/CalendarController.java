@@ -98,4 +98,16 @@ public class CalendarController {
             CSVConverter.jsonToCSV(request.getFileContents()) :
             JSONConverter.csvToJSON(request.getFileContents());
     }
+
+
+    @PostMapping(path = "/upload/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadJson(@ModelAttribute UploadJsonRequest request) {
+        try {
+            UrlProcessorJson processor = new UrlProcessorJson();
+            this.listaEventos = processor.parseUrlContent(request.getJsonContent());
+        } catch (IOException e) {
+            log.atError().log("Error reading file contents");
+        }
+    }
+
 }

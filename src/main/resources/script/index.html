@@ -32,43 +32,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <script src="calendarioPortugues.js"></script>
-<script>
-    $('#download').click(function() {
-        // Obtém todos os eventos do calendário
-        var allEvents = $('#calendar').fullCalendar('clientEvents');
-
-        // Converte os eventos para JSON
-        var jsonEvents = JSON.stringify(allEvents);
-
-// Cria um novo objeto Blob com os dados JSON
-        var blob = new Blob([jsonEvents], {type: "application/json"});
-
-// Faz o download do arquivo
-        fetch(URL.createObjectURL(blob))
-            .then(response => response.blob())
-            .then(blob => {
-                // Cria um objeto URL para o objeto Blob
-                var url = URL.createObjectURL(blob);
-
-                // Cria um link de download
-                var link = document.createElement("a");
-                link.href = url;
-                link.download = "calendario.json";
-
-                // Simula o clique no link para iniciar o download
-                link.dispatchEvent(
-                    new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window
-                    })
-                );
-            });
-    });
-
-
-</script>
-
 
 </body>
 </html>

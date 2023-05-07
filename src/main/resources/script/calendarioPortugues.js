@@ -1,8 +1,8 @@
 /*
-* Tradução do calendário para portugês e configurações
-
+* Tradução do calendário para português e configurações
 */
-//Tradução
+
+// Tradução
 (function ($) {
     $.fullCalendar.locale("calendarioPortugues", {
         buttonText: {
@@ -23,73 +23,56 @@
         },
         noEventsMessage: "Sem eventos nesta semana",
         titleFormat: 'D [de] MMMM, YYYY',
-
     });
 })(jQuery);
 
-
-//Configurações
+// Configurações
 $(document).ready(function () {
     $('#calendar').fullCalendar({
         allDaySlot: false,
-
-        events: [
-            {
-                title: 'Evento exemplo',
-                start: '2023-04-18T10:08:30',
-                end: '2023-04-18T11:23:00',
-                editable: true,
-                description: "Só para ver se aparece",
-                color: 'red',
+        events: {
+            url: 'http://localhost:8256/calendar/consume/url',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                type: "JSON",
+                url: "https://raw.githubusercontent.com/ISCTE-Eng-Software-GRUPO-B/ES-2023-2Sem-Sexta-Feira-LIGEPL-GrupoB/main/src/test/resources/test.json"
+            }),
+            success: function (response) {
+                $('#calendar').fullCalendar('addEventSource', response);
             },
-            {
-                title: 'Evento exemplo 2',
-                start: '2023-04-18T10:08:30',
-                end: '2023-04-18T12:23:00',
-                editable: true,
-                description: "Só para ver se aparece",
+            error: function() {
+                alert('Houve um erro ao obter os eventos!');
             }
-        ],
-
-        // A trabalhar - adiciona um pop-up ao evento
-        eventClick: function (event) {
-            var popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');
-            var content = '<p>' + event.description + '</p>';
-            content += '<button class="remove-event">Remover</button>';
-            popup.document.write(content);
-            popup.document.write('<title>' + "Evento" + '</title>');
-
-            // Quando o botão "Remover" é clicado, remove o evento do calendário
-            $(popup.document).find('.remove-event').click(function() {
-                $('#calendar').fullCalendar('removeEvents', event._id);
-                popup.close();
-            });
         },
-
-
         height: 600,
-
         defaultView: 'agendaWeek',
         header: {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay, listWeek'
         },
-
         locale: 'calendarioPortugues',
-
-        //themeSystem: 'bootstrap4',
         columnHeaderFormat: 'dddd DD/MM',
-
-        // Configurações de Tempo
         slotLabelFormat: 'HH:mm',
         slotDuration: '00:30:00',
         minTime: '08:30:00',
         maxTime: '23:00:00',
-
-
+        eventClick: function (event) {
+            var popup = window.open('', 'popUpWindow', 'height=200,width=400,left=200,top=200');
+            var content = '<p>' + event.description + '</p>';
+            content += '<button class="remove-event">Remover</button>';
+            popup.document.write(content);
+            popup.document.write('<title>' + "Evento" + '</title>');
+            $(popup.document).find('.remove-event').click(function() {
+                $('#calendar').fullCalendar('removeEvents', event._id);
+                popup.close();
+            });
+        },
     });
 
-
-
+    $('#download').click(function() {
+        var allEvents = $('#calendar').fullCalendar('clientEvents');
+        console.log(allEvents);
+    });
 });
