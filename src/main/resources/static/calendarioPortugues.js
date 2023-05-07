@@ -61,9 +61,11 @@ $(document).ready(function () {
         },
     });
 
-    // retorna o calendário personalizado
-    $('#download').click(function() {
-        var allEvents = $('#calendar').fullCalendar('clientEvents');
-        const json = JSON.stringify(events);
+    $("#download-form").submit(function(e){
+        e.preventDefault();
+
+        $("#download-events").val(JSON.stringify($('#calendar').fullCalendar('clientEvents').map(x => x.originalEvent)));
+
+        this.submit();
     });
 });

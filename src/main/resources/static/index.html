@@ -93,7 +93,7 @@
 
         <!-- Download Calendar Tab -->
         <div id="download-calendar" class="tab-pane">
-            <form action="/calendar/download" method="post">
+            <form action="/calendar/download" method="post" id="download-form" target="_blank">
                 <div class="form-group">
                     <label for="type">File type:</label>
                     <div class="form-check">
@@ -108,8 +108,9 @@
                             JSON
                         </label>
                     </div>
+                    <input type="text" name="events" value="" hidden id="download-events">
                 </div>
-                <button type="submit" class="btn btn-primary">Download</button>
+                <button type="submit" class="btn btn-primary" id="download">Download</button>
             </form>
         </div>
     </div>

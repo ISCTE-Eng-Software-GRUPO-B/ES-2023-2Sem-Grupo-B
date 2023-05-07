@@ -1,6 +1,7 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.iscte.engsoft.grupob.calendarapp.mapper.EventTheRealFrontendMapper;
 import com.iscte.engsoft.grupob.calendarapp.model.*;
 import com.iscte.engsoft.grupob.calendarapp.util.*;
@@ -11,13 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,8 +62,7 @@ public class CalendarController {
 
         String content = urlReader.readFileFromUrl(url);
 
-        CalendarFormat type =  request.getType();
-        UrlProcessor urlProcessor = switch (type) {
+        UrlProcessor urlProcessor = switch (request.getType()) {
             case JSON -> new UrlProcessorJson();
             case WEBCAL -> new UrlProcessorWebcal();
             case CSV -> new UrlProcessorCsv();
@@ -81,9 +81,7 @@ public class CalendarController {
     @PostMapping(path = "/consume/file", consumes = MediaType.ALL_VALUE)
     public RedirectView consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
         try {
-            CalendarFormat type =  request.getType();
-
-            UrlProcessor urlProcessor = switch (type) {
+            UrlProcessor urlProcessor = switch (request.getType()) {
                 case JSON -> new UrlProcessorJson();
                 case CSV -> new UrlProcessorCsv();
                 default -> new UrlProcessorJson();
@@ -120,9 +118,18 @@ public class CalendarController {
         }
     }
 
-    @PostMapping(path = "/download", consumes = MediaType.APPLICATION_JSON_VALUE)
-    private List<EventFrontend> download(List<EventTheRealFrontend> list) {
-        return list.stream().map(EventTheRealFrontend::getOriginalEvent).collect(Collectors.toList());
+    @PostMapping(path = "/download", consumes = MediaType.ALL_VALUE)
+    public String download(@ModelAttribute DownloadRequest request) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+
+            listaEventos = Arrays.stream(objectMapper.readValue(request.getEvents(), EventFrontend[].class)).toList();
+        } catch (IOException e) {
+            log.atError().log("Error reading frontend events");
+        }
+
+        return request.getEvents();
     }
 
     private List<EventTheRealFrontend> getFrontEndEvents() {
