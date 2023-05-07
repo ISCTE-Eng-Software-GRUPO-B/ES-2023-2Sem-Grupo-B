@@ -1,19 +1,26 @@
 package com.iscte.engsoft.grupob.calendarapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iscte.engsoft.grupob.calendarapp.mapper.EventTheRealFrontendMapper;
 import com.iscte.engsoft.grupob.calendarapp.model.*;
 import com.iscte.engsoft.grupob.calendarapp.util.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -25,7 +32,15 @@ public class CalendarController {
     @Autowired
     private UrlReader urlReader;
 
-    private List<EventFrontend> listaEventos;
+    private List<EventFrontend> listaEventos = Collections.emptyList();
+
+    /**
+     * @return the calendar already persisted data in JSON format
+     */
+    @GetMapping(path = "/get", consumes = MediaType.ALL_VALUE)
+    public List<EventTheRealFrontend> get() {
+        return getFrontEndEvents();
+    }
 
     /**
      * Recebe uma url com contém um calendário com eventos e que pode estar em
@@ -37,38 +52,25 @@ public class CalendarController {
      * @return lista de eventos obtidos.
      */
     @PostMapping(value = "/consume/url", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<EventFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
-
-        log.info(String.format("Url: %s", request.getUrl()));
-        log.info(String.format("UrlType: %s", request.getType()));
-
+    public List<EventTheRealFrontend> consumeUrl(@RequestBody ConsumeURLCalendarRequest request) throws IOException {
         String url = request.getUrl();
 
-        //for webcal we need to change the protocol from webcal:// to https:// (for fenix) //TODO: improve
-        if (request.getType()==CalendarFormat.WEBCAL){
+        if (request.getType() == CalendarFormat.WEBCAL){
             url = url.replace("webcal://", "https://");
         }
 
         String content = urlReader.readFileFromUrl(url);
 
         CalendarFormat type =  request.getType();
-        UrlProcessor urlProcessor = null; //usa poliformismo para o parse
-        switch (type) {
-            case JSON:
-                urlProcessor = new UrlProcessorJson();
-                break;
-            case WEBCAL:
-                urlProcessor = new UrlProcessorWebcal();
-                break;
-            case CSV:
-                urlProcessor = new UrlProcessorCsv();
-                break;
-            default:
-                urlProcessor = new UrlProcessorJson();
-        }
+        UrlProcessor urlProcessor = switch (type) {
+            case JSON -> new UrlProcessorJson();
+            case WEBCAL -> new UrlProcessorWebcal();
+            case CSV -> new UrlProcessorCsv();
+            default -> new UrlProcessorJson();
+        };
         this.listaEventos = urlProcessor.parseUrlContent(content);
-        return this.listaEventos;
 
+        return getFrontEndEvents();
     }
 
 
@@ -77,14 +79,22 @@ public class CalendarController {
      * @return the calendar data in JSON format
      */
     @PostMapping(path = "/consume/file", consumes = MediaType.ALL_VALUE)
-    public String consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
+    public RedirectView consumeFile(@ModelAttribute UploadCalendarFileRequest request) {
         try {
-            return new String(request.getFile().getBytes(), StandardCharsets.UTF_8);
+            CalendarFormat type =  request.getType();
+
+            UrlProcessor urlProcessor = switch (type) {
+                case JSON -> new UrlProcessorJson();
+                case CSV -> new UrlProcessorCsv();
+                default -> new UrlProcessorJson();
+            };
+
+            this.listaEventos = urlProcessor.parseUrlContent(new String(request.getFile().getBytes(), StandardCharsets.UTF_8));
         } catch (IOException e) {
             log.atError().log("Error reading file contents");
         }
 
-        return "";
+        return new RedirectView("/index.html");
     }
 
     /**
@@ -109,5 +119,16 @@ public class CalendarController {
             log.atError().log("Error reading file contents");
         }
     }
+
+    @PostMapping(path = "/download", consumes = MediaType.APPLICATION_JSON_VALUE)
+    private List<EventFrontend> download(List<EventTheRealFrontend> list) {
+        return list.stream().map(EventTheRealFrontend::getOriginalEvent).collect(Collectors.toList());
+    }
+
+    private List<EventTheRealFrontend> getFrontEndEvents() {
+        return listaEventos.stream().map(EventTheRealFrontendMapper::fromAnotherEvent).collect(Collectors.toList());
+    }
+
+
 
 }

@@ -31,19 +31,19 @@ $(document).ready(function () {
     $('#calendar').fullCalendar({
         allDaySlot: false,
         events: {
-            url: 'http://localhost:8256/calendar/consume/url',
-            type: 'POST',
+            url: 'http://localhost:8256/calendar/get',
+            type: 'GET',
             contentType: 'application/json',
-            data: JSON.stringify({
+            /*data: JSON.stringify({
                 type: "JSON",
                 url: "https://raw.githubusercontent.com/ISCTE-Eng-Software-GRUPO-B/ES-2023-2Sem-Sexta-Feira-LIGEPL-GrupoB/main/src/test/resources/test.json"
-            }),
-            success: function (response) {
+            }),*/
+            /*success: function (response) {
                 $('#calendar').fullCalendar('addEventSource', response);
             },
             error: function() {
-                alert('Houve um erro ao obter os eventos!');
-            }
+                //alert('Houve um erro ao obter os eventos!');
+            }*/
         },
         height: 600,
         defaultView: 'agendaWeek',
@@ -69,12 +69,15 @@ $(document).ready(function () {
                 popup.close();
             });
         },
+        loading: function (isLoading) {
+            if (isLoading) {
+
+            }
+        }
     });
 
-    // retorna o calendário personalizado
     $('#download').click(function() {
         var allEvents = $('#calendar').fullCalendar('clientEvents');
-        const json = JSON.stringify(events);
-        console.log(json);
+        console.log(allEvents);
     });
 });
