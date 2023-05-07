@@ -8,6 +8,9 @@ import lombok.extern.jackson.Jacksonized;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Classe que representa um evento no formato do ficheiro CSV
+ */
 @JsonPropertyOrder({
         &quot;Curso&quot;,
         &quot;Unidade Curricular&quot;,
@@ -21,7 +24,7 @@ import java.time.LocalTime;
         &quot;Sala atribuida a aula&quot;,
         &quot;Lotacao da sala&quot;
 })
-<span class="nc" id="L24">@Builder</span>
+<span class="nc" id="L27">@Builder</span>
 @Jacksonized
 public class Event {
 

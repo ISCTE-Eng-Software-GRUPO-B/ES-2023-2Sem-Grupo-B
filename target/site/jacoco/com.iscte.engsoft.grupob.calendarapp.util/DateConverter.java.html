@@ -5,7 +5,11 @@ import lombok.extern.log4j.Log4j2;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-<span class="nc" id="L8">@Log4j2</span>
+/**
+ * Esta classe permite converter a data e a hora para o formato apropriado para
+ * a api do calendário em JavaScript
+ */
+<span class="nc" id="L12">@Log4j2</span>
 public class DateConverter {
 
     private DateConverter() {}
@@ -17,15 +21,15 @@ public class DateConverter {
     public static final String DATE_FORMAT = &quot;yyyyMMdd&quot;;
 
     public static LocalDateTime parseToLocalDateTime(String timestamp) {
-<span class="nc" id="L20">        return  LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));</span>
+<span class="nc" id="L24">        return  LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));</span>
     }
 
     public static LocalDate parseToLocalDate(String timestamp) {
-<span class="nc" id="L24">        return  LocalDate.parse(timestamp, DateTimeFormatter.ofPattern(DATE_FORMAT));</span>
+<span class="nc" id="L28">        return  LocalDate.parse(timestamp, DateTimeFormatter.ofPattern(DATE_FORMAT));</span>
     }
 
     public static LocalTime parseToLocalTime(String timestamp) {
-<span class="nc" id="L28">        return  LocalTime.parse(timestamp, DateTimeFormatter.ofPattern(TIME_FORMAT));</span>
+<span class="nc" id="L32">        return  LocalTime.parse(timestamp, DateTimeFormatter.ofPattern(TIME_FORMAT));</span>
     }
 
 }

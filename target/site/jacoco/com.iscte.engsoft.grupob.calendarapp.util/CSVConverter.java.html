@@ -9,47 +9,50 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.iscte.engsoft.grupob.calendarapp.model.Event;
 
+/**
+ * Classe que implementa a conversão JSON para CSV
+ */
 public class CSVConverter {
 
 	private CSVConverter(){}
 
 	public static boolean isValidJSON(String json) {
-<span class="fc" id="L17">		ObjectMapper mapper = new ObjectMapper()</span>
-<span class="fc" id="L18">					.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);</span>
+<span class="fc" id="L20">		ObjectMapper mapper = new ObjectMapper()</span>
+<span class="fc" id="L21">					.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);</span>
 		try {
-<span class="fc" id="L20">			mapper.readTree(json);</span>
-<span class="nc" id="L21">		} catch (JacksonException e) {</span>
-<span class="nc" id="L22">			return false;</span>
-<span class="fc" id="L23">		}</span>
-<span class="fc" id="L24">		return true;</span>
+<span class="fc" id="L23">			mapper.readTree(json);</span>
+<span class="nc" id="L24">		} catch (JacksonException e) {</span>
+<span class="nc" id="L25">			return false;</span>
+<span class="fc" id="L26">		}</span>
+<span class="fc" id="L27">		return true;</span>
 	}
 
 	public static String jsonToCSV(String content) {
-<span class="fc bfc" id="L28" title="All 2 branches covered.">		if (&quot;&quot;.equals(content)) {</span>
-<span class="fc" id="L29">			return &quot;&quot;;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">		if (&quot;&quot;.equals(content)) {</span>
+<span class="fc" id="L32">			return &quot;&quot;;</span>
 		}
 
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">		if(!isValidJSON(content)) {</span>
-<span class="nc" id="L33">			return &quot;&quot;;</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if(!isValidJSON(content)) {</span>
+<span class="nc" id="L36">			return &quot;&quot;;</span>
 		}
 
 		String convertedContent;
 
 		try {
-<span class="fc" id="L39">			JsonNode jsonTree = new ObjectMapper().readTree(content);</span>
-<span class="fc" id="L40">			CsvMapper csvMapper = new CsvMapper();</span>
+<span class="fc" id="L42">			JsonNode jsonTree = new ObjectMapper().readTree(content);</span>
+<span class="fc" id="L43">			CsvMapper csvMapper = new CsvMapper();</span>
 
-<span class="fc" id="L42">			CsvSchema csvSchema = csvMapper.schemaFor(Event.class).withHeader();</span>
+<span class="fc" id="L45">			CsvSchema csvSchema = csvMapper.schemaFor(Event.class).withHeader();</span>
 
-<span class="fc" id="L44">			convertedContent = csvMapper.writerFor(JsonNode.class)</span>
-<span class="fc" id="L45">					.with(csvSchema)</span>
-<span class="fc" id="L46">					.writeValueAsString(jsonTree);</span>
+<span class="fc" id="L47">			convertedContent = csvMapper.writerFor(JsonNode.class)</span>
+<span class="fc" id="L48">					.with(csvSchema)</span>
+<span class="fc" id="L49">					.writeValueAsString(jsonTree);</span>
 
-<span class="fc" id="L48">		} catch (JsonProcessingException e) {</span>
-<span class="fc" id="L49">			throw new IllegalArgumentException(e);</span>
-<span class="fc" id="L50">		}</span>
+<span class="fc" id="L51">		} catch (JsonProcessingException e) {</span>
+<span class="fc" id="L52">			throw new IllegalArgumentException(e);</span>
+<span class="fc" id="L53">		}</span>
 
-<span class="fc" id="L52">		return convertedContent;</span>
+<span class="fc" id="L55">		return convertedContent;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

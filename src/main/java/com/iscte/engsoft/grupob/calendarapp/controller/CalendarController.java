@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-
+/**
+ * Esta classe implementa o controlador principal da aplicação em MVC
+ */
 @RestController
 @Validated
 @RequestMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
